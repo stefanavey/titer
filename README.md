@@ -1,4 +1,4 @@
-# titeR <img src="logo.png" align="right" height="80" width="62" />
+# titeR <img src="logo.png" align="right" height="120" width="93" />
 
 [![Build Status](https://travis-ci.org/stefanavey/titeR.svg?branch=master)](https://travis-ci.org/stefanavey/titeR)
 
