@@ -26,7 +26,8 @@
 #' library(dplyr)
 #' library(ggplot2)
 #' strains <- c("A_California_7_2009", "A_Perth_16_2009", "B_Brisbane_60_2008")
-#' titer_list <- FormatTiters(Year2_Titers, strains, subjectCol = "YaleID")
+#' titer_list <- FormatTiters(Year2_Titers, strains, subjectCol = "YaleID",
+#'                            otherCols = "AgeGroup")
 #'
 #' ## Basic plot without any fitted model
 #' BubbleChart(titer_list)
@@ -35,13 +36,13 @@
 #' BubbleChart(titer_list, cols = 1)
 #'
 #' ## Add a linear fit
-#' BubbleChart(titer_list, method = "lm", subjectCol = "YaleID")
+#' BubbleChart(titer_list, fit = "lm", subjectCol = "YaleID")
 #' 
 #' ## Add an exponential fit
-#' BubbleChart(titer_list, method = "exp", subjectCol = "YaleID")
+#' BubbleChart(titer_list, fit = "exp", subjectCol = "YaleID")
 #'
 #' ## Add coloring by age
-#' 
+#' BubbleChart(titer_list, fit = "exp", subjectCol = "YaleID", colorBy = "AgeGroup")
 BubbleChart <- function(dat_list, fit = NULL,
                         subjectCol = "SubjectID", colorBy = NULL,
                         xlimits = c(1.5, 10.5), xbreaks = 2:10,
