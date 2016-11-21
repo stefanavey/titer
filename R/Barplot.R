@@ -61,7 +61,20 @@ Barplot <- function(dat_list, subjectCol = "SubjectID", cols = 1,
       gg <- ggplot(pd, aes_string(x = subjectCol) +
                      aes(y = titer,
                          group = interaction(condition, strain),
-                         fill = interaction(condition, strain), color = fourFC))
+                         fill = interaction(condition, strain), color = fourFC)) +
+        geom_hline(aes(yintercept = log2(40)), color = "grey20", alpha = 0.5) +
+        geom_bar(stat = "identity", position = "dodge") +
+        coord_cartesian(ylim = lims) +
+        scale_y_continuous(breaks = lims[1]:lims[2]) +
+        scale_color_manual(values = c("white", "black"),
+                           name = "4 Fold Change", guide = FALSE) +
+        scale_fill_manual(values = colors[1:(length(dat_list)*2)], name = "Day.Strain") +
+        ylab(expression("log"[2]("HAI Titer"))) +
+        theme_bw() +
+        theme(strip.text =element_text(size = 16),
+              axis.text = element_text(size = 14),
+              axis.text.x = element_text(angle = 60, hjust = 1),          
+              title=element_text(size=20, face="bold"))      
       if(any(plotDat[[groupVar]] == group)) {
         gg <- gg + facet_grid(as.formula(paste("~", groupVar)),
                               scales = "free_x", drop = TRUE)
