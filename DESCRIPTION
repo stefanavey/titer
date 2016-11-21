@@ -7,9 +7,9 @@ Description: This package contains methods to calculate endpoints from
 Depends:
     R (>= 3.0.2)
 Imports:
-    tidyr
-    dplyr
-    grid
+    tidyr,
+    dplyr,
+    grid,
     ggplot2
 BugReports: https://github.com/stefanavey/titeR/issues    
 License: CCO
