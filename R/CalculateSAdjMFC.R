@@ -1,40 +1,41 @@
-##' @title CalculateSAdjMFC
-##'
-##' @description
-##' \code{CalculateSAdjMFC} calculates the baseline-adjusted fold change
-##' for each strain of virus
-##' 
-##' @details
-##' calculates the baseline-adjusted fold change for each strain of virus
-##' using (unnormalized) fold change and baseline titers. Linear regression is
-##' used to remove the effect of baseline titers on fold changes.
-##' Missing (\code{NA}) values are handled by being returned as missing in the
-##' endpoints in the output
-##'
-##' @param datList a list with one data frame for each strain and each data frame containing the columns `fcCol` and `d0Col`. The order of each data frame must be the same and they must be the same dimensions. In addition, each data frame must be sorted by `d0Col` from low to high.
-##' @param subjectCol the name of the column specifying a subject ID. Default is "SubjectID".
-##' @param method a character string specifying the method used to model the relationship between day 0 and fold change values. One of either "lm" for a linear model or "exp" for an exponential model.
-##' @param scoreFun a function applied to all (potentially scaled) residuals for each subject to determine the endpoint. Default is \code{max} but \code{sum} may also be useful to quantify the total response.
-##' @param fcCol character string specifying the name of the fold change column in each element of `datList`
-##' @param d0Col character string specifying the name of the day 0 column in each element of `datList`
-##' @param normalize Logical specifying whether residuals should be normalized with the inverse normal transform. Default is \code{TRUE}.
-##' @param discretize a vector of quantiles in (0, 0.5] specifying where to make the cutoff for low, moderate and high responses. Default is 20% and 30%.
-##' @param scaleResiduals Logical. Should residuals be scaled inversely by the
-##'                       square of the confidence intervals from the linear model.
-##' @param responseLabels names for low, moderate and high responses 
-##' @param na_action how should missing \code{NA} values be treated. Default is "na.fail"
-##' @param ... Additional arguments passed to \code{lm} if method == "lm" or \code{nls} if method == "exp"
-##'
-##' @return A list with the first element named `models` for the models calculated on each strain separately (with names the same as on `datList`) and then `SAdjMFC` containing the continuous SAdjMFC metric and one additional element for each value of discretize giving the discrete labels.
-##'
-##' @seealso \code{lm}
-##' 
-##' @author Stefan Avey
-##' @keywords HIPC
-##' @export
-##' @examples
-##' ## First Example
-##'
+#' Calculate SAdjMFC
+#'
+#' \code{CalculateSAdjMFC} calculates the baseline-adjusted maximum fold change (MFC)
+#' for each viral strain
+#' 
+#' Calculates the baseline-adjusted fold change for each strain of virus
+#' using (unnormalized) fold change and baseline titers. Linear regression or
+#' an exponential curve is used to remove the effect of baseline titers on fold changes.
+#' The score function (\code{scoreFun}) is used to combine the adjusted fold change across
+#' multiple strains.
+#' Missing (\code{NA}) values are handled by being returned as missing in the
+#' endpoints in the output
+#'
+#' @param datList a list with one data frame for each strain and each data frame containing the columns \code{fcCol} and \code{d0Col}. The order of each data frame must be the same and they must be the same dimensions. In addition, each data frame must be sorted by \code{d0Col} from low to high.
+#' @param subjectCol the name of the column specifying a subject ID. Default is "SubjectID".
+#' @param method a character string specifying the method used to model the relationship between day 0 and fold change values. One of either "lm" for a linear model or "exp" for an exponential model.
+#' @param scoreFun a function applied to all (potentially scaled) residuals for each subject to determine the endpoint. Default is \code{max} but \code{sum} may also be useful to quantify the total response.
+#' @param fcCol character string specifying the name of the fold change column in each element of \code{datList}
+#' @param d0Col character string specifying the name of the day 0 column in each element of \code{datList}
+#' @param normalize Logical specifying whether residuals should be normalized with the inverse normal transform. Default is \code{TRUE}.
+#' @param discretize a vector of quantiles in (0, 0.5] specifying where to make the cutoff for low, moderate and high responses. Default is 20\% and 30\%.
+#' @param scaleResiduals Logical. Should residuals be scaled inversely by the
+#'                       square of the confidence intervals from the linear model.
+#' @param responseLabels names for low, moderate and high responses 
+#' @param na_action how should missing \code{NA} values be treated. Default is "na.fail"
+#' @param ... Additional arguments passed to \code{lm} if method == "lm" or \code{nls} if method == "exp"
+#'
+#' @return A list with the following elements:
+#'         "models":         the models calculated on each strain separately (with names the same as on \code{datList})
+#'         "residualMatrix": the matrix of residuals
+#'         "SAdjMFC":        a list containing the continuous and discrete SAdjMFC metrics
+#' @seealso \code{lm, nls}
+#' @author Stefan Avey
+#' @keywords HIPC
+#' @export
+#' @examples
+#' ## First Example
+#'
 CalculateSAdjMFC <- function(datList, subjectCol = "SubjectID",
                              method = c("lm", "exp"),
                              scoreFun = max,

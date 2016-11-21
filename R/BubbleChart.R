@@ -1,40 +1,36 @@
-##' @title BubbleChart
-##'
-##' @description
-##' \code{BubbleChart} wraps \code{ggplot2} to plot baseline vs fold changes
-##'
-##' @param dat_list a list like the one returned by \code{FormatTiters}
-##' @param fit what type of fit to add. Current options are "lm" for linear model, "exp" for exponential, or \code{NULL} for no smoothing.
-##' @param xlimits the x-axis limits (passed to scale_x_continuous)
-##' @param xbreaks the x-axis breaks (passed to scale_x_continuous)
-##' @param plot logical indicating whether to plot or not. Default is TRUE
-##'
-##' @param cols numeric specifying how many columns to layout plot
-##' @param scale_y a character string specifying whether the y axis should be "fixed" for all strains or "free".
-##' @details
-##' This plot was designed for HAI titer data with baseline columns and fold change columns for multiple strains.
-##'
-##' @return a list of ggplot2 objects.
-##'
-##' 
-##' @import grid ggplot2
-##' @importFrom aveytoolkit Multiplot GetEqn
-##' @author Stefan Avey
-##' @keywords HIPC
-##' @seealso \code{FormatTiters}
-##' @export
-##' @examples
-##' \dontrun{
-##' ## Example using the master phenotype file
-##' library(dplyr)
-##' titers <- master %>%
-##'   filter(Year == 1, AgeGroup %in% "Young", !is.na(whoResp))
-##' titer_list <- FormatTiters(titers,
-##'                            strains = c("A_California_7_2009",
-##'                                "A_Perth_16_2009",
-##'                                "B_Brisbane_60_2008"))
-##' }
-##' BubbleChart(titer_list)
+#' Bubble Chart
+#'
+#' \code{BubbleChart} visualizes baseline vs fold change in titers
+#'
+#' This plot was designed for HAI titer data with baseline columns and fold change columns for multiple strains.
+#'
+#' @param dat_list a list like the one returned by \code{FormatTiters}
+#' @param fit what type of fit to add. Current options are "lm" for linear model, "exp" for exponential, or \code{NULL} for no smoothing.
+#' @param xlimits the x-axis limits (passed to scale_x_continuous)
+#' @param xbreaks the x-axis breaks (passed to scale_x_continuous)
+#' @param plot logical indicating whether to plot or not. Default is TRUE
+#'
+#' @param cols numeric specifying how many columns to layout plot
+#' @param scale_y a character string specifying whether the y axis should be "fixed" for all strains or "free".
+#' @return a list of ggplot2 objects.
+#' 
+#' @import grid ggplot2
+#' @author Stefan Avey
+#' @keywords HIPC
+#' @seealso \code{FormatTiters}
+#' @export
+#' @examples
+#' \dontrun{
+#' ## Example using the master phenotype file
+#' library(dplyr)
+#' titers <- master %>%
+#'   filter(Year == 1, AgeGroup %in% "Young", !is.na(whoResp))
+#' titer_list <- FormatTiters(titers,
+#'                            strains = c("A_California_7_2009",
+#'                                "A_Perth_16_2009",
+#'                                "B_Brisbane_60_2008"))
+#' }
+#' BubbleChart(titer_list)
 BubbleChart <- function(dat_list, fit = NULL,
                         xlimits = c(1.5, 10.5), xbreaks = 2:10,
                         plot = TRUE, cols = 2) {
