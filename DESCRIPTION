@@ -6,6 +6,12 @@ Description: This package contains methods to calculate endpoints from
 	     antibody titer data and visualize titers.
 Depends:
     R (>= 3.0.2)
+Imports:
+    tidyr
+    dplyr
+    grid
+    ggplot2
+BugReports: https://github.com/stefanavey/titeR/issues    
 License: CCO
 LazyData: true
 RoxygenNote: 5.0.1
