@@ -1,8 +1,12 @@
 # titeR - An R package for antibody titer data
 
+## Overview
+
+titeR is an R package for analysis and visualization of antibody titer data.  The intended use case is influenza antibody titer data measured by the hemagglutination inhibition assay (HAI).
+
 ## Installation
 
-```
+```r
 library(devtools)
-install_github("stefanavey/titeR")
+devtools::install_github("stefanavey/titeR")
 ```
