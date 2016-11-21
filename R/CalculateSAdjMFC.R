@@ -104,7 +104,11 @@ CalculateSAdjMFC <- function(datList, subjectCol = "SubjectID",
     residuals_list[[i]] <- residuals[order(names(residuals))]
     model_list[[i]] <- model
   }
-  residual_mat <- Reduce(cbind, residuals_list)
+  if(length(residuals_list) > 1) {
+    residual_mat <- Reduce(cbind, residuals_list)
+  } else {
+      residual_mat <- matrix(residuals_list[[1]], ncol = 1)
+    }
   colnames(residual_mat) <- names(datList)
   if(normalize) {
     residual_mat <- apply(residual_mat, 2, .INT)

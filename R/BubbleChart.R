@@ -6,14 +6,15 @@
 #'
 #' @param dat_list a named list like the one returned by \code{\link{FormatTiters}}
 #' @param fit what type of fit to add. Current options are "lm" for linear model, "exp" for exponential, or \code{NULL} for no smoothing.
+#' @param eqSize Text size of the equation. Only relevant if \code{fit} is not \code{NULL}
 #' @param subjectCol the name of the column specifying a subject ID. Default is "SubjectID". 
 #' @param colorBy a character string specifying an endpoint to colorBy or \code{NULL} (default) for no coloring.
 #' @param xlimits the x-axis limits (passed to \code{scale_x_continuous})
 #' @param xbreaks the x-axis breaks (passed to \code{scale_x_continuous})
 #' @param plot logical indicating whether to plot or not. Default is TRUE
 #' @param cols numeric specifying how many columns to layout plot
-#' @param scale_y a character string specifying whether the y axis should be "fixed" for all strains or "free".
 #' @param ... other arguments besides \code{method} and \code{subjectCol} passed to \code{\link{CalculateSAdjMFC}}.
+#' @param scale_y a character string specifying whether the y axis should be "fixed" for all strains or "free".
 #' @return (invisibly) a list of ggplot2 objects.
 #' 
 #' @import grid ggplot2
@@ -41,7 +42,7 @@
 #'
 #' ## Add coloring by age
 #' BubbleChart(titer_list, fit = "exp", subjectCol = "YaleID", colorBy = "AgeGroup")
-BubbleChart <- function(dat_list, fit = NULL,
+BubbleChart <- function(dat_list, fit = NULL, eqSize = 2.5,
                         subjectCol = "SubjectID", colorBy = NULL,
                         xlimits = c(1.5, 10.5), xbreaks = 2:10,
                         plot = TRUE, cols = 2, ...) {
@@ -88,19 +89,19 @@ BubbleChart <- function(dat_list, fit = NULL,
       gg <- gg + geom_text(aes(x = 6,#mean(unique(d0), na.rm = TRUE),
                                y = quantile(unique(fc), 0.95)),
                            label = GetEqn(mod),
-                           parse = TRUE, size = 2.5, color = "black")
-      if (!is.null(colorBy)) {
+                           parse = TRUE, size = eqSize, color = "black")
+      if (!is.null(colorBy)) { 
         if (colorBy %in% names(endpoints)) {
           plotDat[[colorBy]] <- endpoints[[colorBy]][as.character(plotDat[[subjectCol]])]
         }
-        if (colorBy %in% colnames(plotDat)) {
-          gg <- gg + geom_count(data = plotDat, mapping = aes_string(color = colorBy),
-                                position = position_jitter(width = 0.2, height = 0.2))
-        } else {
-            stop("`colorBy` must be the name of a column in dat_list or a valid endpoint name from CalculateSAdjMFC()")
-          }
+      }
+    }
+    if (!is.null(colorBy)) {
+      if (colorBy %in% colnames(plotDat)) {
+        gg <- gg + geom_count(data = plotDat, mapping = aes_string(color = colorBy),
+                              position = position_jitter(width = 0.2, height = 0.2))
       } else {
-          gg <- gg + geom_count()
+          stop("`colorBy` must be the name of a column in dat_list or a valid endpoint name from CalculateSAdjMFC()")
         }
     } else {
         gg <- gg + geom_count()

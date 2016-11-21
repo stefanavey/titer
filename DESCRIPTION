@@ -1,6 +1,6 @@
 Package: titeR
 Title: Tools for analyzing and visualizing antibody titer data.
-Version: 0.0.1.0015
+Version: 0.0.1.0017
 Authors@R: "Stefan Avey <stefan.avey@yale.edu> [aut, cre]"
 Description: This package contains methods to calculate endpoints from
 	     antibody titer data and visualize titers.
