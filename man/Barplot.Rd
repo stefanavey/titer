@@ -24,8 +24,20 @@ Barplot(dat_list, subjectCol = "SubjectID", cols = 1, groupVar = NULL,
 \code{Barplot} plots the baseline and day 28 titers
 }
 \examples{
-## First Example
+## Prepare the data
+strains <- c("A_California_7_2009", "A_Perth_16_2009", "B_Brisbane_60_2008")
+titer_list <- FormatTiters(Year1_Titers, strains, subjectCol = "YaleID",
+                           otherCols = "AgeGroup")
 
+## Bar plot of a single strain
+Barplot(titer_list[strains[1]], subjectCol = "YaleID")
+
+## Bar plot of all 3 strains
+Barplot(titer_list, subjectCol = "YaleID")
+
+## Can improve readability of previous plot by separating into groups
+## For example, group by AgeGroup
+Barplot(titer_list, subjectCol = "YaleID", groupVar = "AgeGroup")
 }
 \author{
 Stefan Avey

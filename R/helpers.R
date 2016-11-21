@@ -13,7 +13,7 @@
 #' @param plotlist a list of ggplot objects
 #' @param cols Number of columns in layout
 #' @param layout A matrix specifying the layout. If present, 'cols' is ignored
-#' @importFrom grid grid.newpage grid.layout pushViewport viewport
+#' @import grid
 #' @author R Cookbook
 #' @references \url{http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_\%28ggplot2\%29/}
 #' @examples

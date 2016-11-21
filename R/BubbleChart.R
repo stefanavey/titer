@@ -23,8 +23,6 @@
 #' @export
 #' @examples
 #' ## Prepare the data
-#' library(dplyr)
-#' library(ggplot2)
 #' strains <- c("A_California_7_2009", "A_Perth_16_2009", "B_Brisbane_60_2008")
 #' titer_list <- FormatTiters(Year2_Titers, strains, subjectCol = "YaleID",
 #'                            otherCols = "AgeGroup")
