@@ -19,16 +19,8 @@
 #' @keywords HIPC
 #' @export
 #' @examples
-#' \dontrun{
-#' ## Example using the master phenotype file
-#' library(dplyr)
-#' titers <- master %>%
-#'   filter(Year == 1, AgeGroup %in% "Young", !is.na(whoResp))
-#' titer_list <- FormatTiters(titers,
-#'                            strains = c("A_California_7_2009",
-#'                                "A_Perth_16_2009",
-#'                                "B_Brisbane_60_2008"))
-#' }
+#' strains <- c("A_California_7_2009", "A_Perth_16_2009", "B_Brisbane_60_2008")
+#' titer_list <- FormatTiters(Year1_Titers, strains, subjectCol = "YaleID")
 FormatTiters <- function(titers, strains,
                          subjectCol = "SubjectID",
                          otherCols = vector(mode = "character"),

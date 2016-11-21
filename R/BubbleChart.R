@@ -4,15 +4,14 @@
 #'
 #' This plot was designed for HAI titer data with baseline columns and fold change columns for multiple strains.
 #'
-#' @param dat_list a list like the one returned by \code{FormatTiters}
+#' @param dat_list a named list like the one returned by \code{\link{FormatTiters}}
 #' @param fit what type of fit to add. Current options are "lm" for linear model, "exp" for exponential, or \code{NULL} for no smoothing.
-#' @param xlimits the x-axis limits (passed to scale_x_continuous)
-#' @param xbreaks the x-axis breaks (passed to scale_x_continuous)
+#' @param xlimits the x-axis limits (passed to \code{scale_x_continuous})
+#' @param xbreaks the x-axis breaks (passed to \code{scale_x_continuous})
 #' @param plot logical indicating whether to plot or not. Default is TRUE
-#'
 #' @param cols numeric specifying how many columns to layout plot
 #' @param scale_y a character string specifying whether the y axis should be "fixed" for all strains or "free".
-#' @return a list of ggplot2 objects.
+#' @return (invisibly) a list of ggplot2 objects.
 #' 
 #' @import grid ggplot2
 #' @author Stefan Avey
@@ -20,18 +19,26 @@
 #' @seealso \code{FormatTiters}
 #' @export
 #' @examples
-#' \dontrun{
-#' ## Example using the master phenotype file
+#' ## Prepare the data
 #' library(dplyr)
-#' titers <- master %>%
-#'   filter(Year == 1, AgeGroup %in% "Young", !is.na(whoResp))
-#' titer_list <- FormatTiters(titers,
-#'                            strains = c("A_California_7_2009",
-#'                                "A_Perth_16_2009",
-#'                                "B_Brisbane_60_2008"))
-#' }
+#' library(ggplot2)
+#' titers <- filter(Year2_Titers, AgeGroup == "Young")
+#' strains <- c("A_California_7_2009", "A_Perth_16_2009", "B_Brisbane_60_2008")
+#' titer_list <- FormatTiters(titers, strains, subjectCol = "YaleID")
+#'
+#' ## Basic plot without any fitted model
 #' BubbleChart(titer_list)
+#'
+#' ## Change layout to plot 3 strains in a single column
+#' BubbleChart(titer_list, cols = 1)
+#'
+#' ## Add a linear fit
+#' BubbleChart(titer_list, fit = "lm", subjectCol = "YaleID")
+#' 
+#' ## Add an exponential fit
+#' BubbleChart(titer_list, fit = "exp", subjectCol = "YaleID")
 BubbleChart <- function(dat_list, fit = NULL,
+                        subjectCol = "SubjectID",
                         xlimits = c(1.5, 10.5), xbreaks = 2:10,
                         plot = TRUE, cols = 2) {
   plotList <- list()
@@ -73,7 +80,7 @@ BubbleChart <- function(dat_list, fit = NULL,
           }
       ## Add text to plot with formula
       ## Calling this function is an easy way to get the formulas
-      endpoints <- CalculateSAdjMFC(plotDatList, method = fit)
+      endpoints <- CalculateSAdjMFC(dat_list, subjectCol = subjectCol, method = fit)
       mod <- endpoints$models[[strain]]
       gg <- gg + geom_text(aes(x = 6,#mean(unique(d0), na.rm = TRUE),
                                y = quantile(unique(fc), 0.95)),

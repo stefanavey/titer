@@ -4,17 +4,17 @@
 \alias{BubbleChart}
 \title{Bubble Chart}
 \usage{
-BubbleChart(dat_list, fit = NULL, xlimits = c(1.5, 10.5), xbreaks = 2:10,
-  plot = TRUE, cols = 2)
+BubbleChart(dat_list, fit = NULL, subjectCol = "SubjectID",
+  xlimits = c(1.5, 10.5), xbreaks = 2:10, plot = TRUE, cols = 2)
 }
 \arguments{
-\item{dat_list}{a list like the one returned by \code{FormatTiters}}
+\item{dat_list}{a named list like the one returned by \code{\link{FormatTiters}}}
 
 \item{fit}{what type of fit to add. Current options are "lm" for linear model, "exp" for exponential, or \code{NULL} for no smoothing.}
 
-\item{xlimits}{the x-axis limits (passed to scale_x_continuous)}
+\item{xlimits}{the x-axis limits (passed to \code{scale_x_continuous})}
 
-\item{xbreaks}{the x-axis breaks (passed to scale_x_continuous)}
+\item{xbreaks}{the x-axis breaks (passed to \code{scale_x_continuous})}
 
 \item{plot}{logical indicating whether to plot or not. Default is TRUE}
 
@@ -23,7 +23,7 @@ BubbleChart(dat_list, fit = NULL, xlimits = c(1.5, 10.5), xbreaks = 2:10,
 \item{scale_y}{a character string specifying whether the y axis should be "fixed" for all strains or "free".}
 }
 \value{
-a list of ggplot2 objects.
+(invisibly) a list of ggplot2 objects.
 }
 \description{
 \code{BubbleChart} visualizes baseline vs fold change in titers
@@ -32,17 +32,24 @@ a list of ggplot2 objects.
 This plot was designed for HAI titer data with baseline columns and fold change columns for multiple strains.
 }
 \examples{
-\dontrun{
-## Example using the master phenotype file
+## Prepare the data
 library(dplyr)
-titers <- master \%>\%
-  filter(Year == 1, AgeGroup \%in\% "Young", !is.na(whoResp))
-titer_list <- FormatTiters(titers,
-                           strains = c("A_California_7_2009",
-                               "A_Perth_16_2009",
-                               "B_Brisbane_60_2008"))
-}
+library(ggplot2)
+titers <- filter(Year2_Titers, AgeGroup == "Young")
+strains <- c("A_California_7_2009", "A_Perth_16_2009", "B_Brisbane_60_2008")
+titer_list <- FormatTiters(titers, strains, subjectCol = "YaleID")
+
+## Basic plot without any fitted model
 BubbleChart(titer_list)
+
+## Change layout to plot 3 strains in a single column
+BubbleChart(titer_list, cols = 1)
+
+## Add a linear fit
+BubbleChart(titer_list, fit = "lm", subjectCol = "YaleID")
+
+## Add an exponential fit
+BubbleChart(titer_list, fit = "exp", subjectCol = "YaleID")
 }
 \author{
 Stefan Avey
