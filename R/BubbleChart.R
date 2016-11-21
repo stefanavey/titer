@@ -5,6 +5,7 @@
 #' This plot was designed for HAI titer data with baseline columns and fold change columns for multiple strains.
 #'
 #' @param dat_list a named list like the one returned by \code{\link{FormatTiters}}
+#' @param fit what type of fit to add. Current options are "lm" for linear model, "exp" for exponential, or \code{NULL} for no smoothing.
 #' @param subjectCol the name of the column specifying a subject ID. Default is "SubjectID". 
 #' @param colorBy a character string specifying an endpoint to colorBy or \code{NULL} (default) for no coloring.
 #' @param xlimits the x-axis limits (passed to \code{scale_x_continuous})
@@ -12,7 +13,7 @@
 #' @param plot logical indicating whether to plot or not. Default is TRUE
 #' @param cols numeric specifying how many columns to layout plot
 #' @param scale_y a character string specifying whether the y axis should be "fixed" for all strains or "free".
-#' @param ... other arguments passed to \code{\link{CalculateSAdjMFC}}. Specifying \code{fit} will add to the plot 
+#' @param ... other arguments besides \code{method} and \code{subjectCol} passed to \code{\link{CalculateSAdjMFC}}.
 #' @return (invisibly) a list of ggplot2 objects.
 #' 
 #' @import grid ggplot2
@@ -24,9 +25,8 @@
 #' ## Prepare the data
 #' library(dplyr)
 #' library(ggplot2)
-#' titers <- filter(Year2_Titers, AgeGroup == "Young")
 #' strains <- c("A_California_7_2009", "A_Perth_16_2009", "B_Brisbane_60_2008")
-#' titer_list <- FormatTiters(titers, strains, subjectCol = "YaleID")
+#' titer_list <- FormatTiters(Year2_Titers, strains, subjectCol = "YaleID")
 #'
 #' ## Basic plot without any fitted model
 #' BubbleChart(titer_list)
@@ -39,7 +39,11 @@
 #' 
 #' ## Add an exponential fit
 #' BubbleChart(titer_list, method = "exp", subjectCol = "YaleID")
-BubbleChart <- function(dat_list, subjectCol = "SubjectID", colorBy = NULL,
+#'
+#' ## Add coloring by age
+#' 
+BubbleChart <- function(dat_list, fit = NULL,
+                        subjectCol = "SubjectID", colorBy = NULL,
                         xlimits = c(1.5, 10.5), xbreaks = 2:10,
                         plot = TRUE, cols = 2, ...) {
   plotList <- list()
@@ -79,7 +83,8 @@ BubbleChart <- function(dat_list, subjectCol = "SubjectID", colorBy = NULL,
           }
       ## Add text to plot with formula
       ## Calling this function is an easy way to get the formulas
-      endpoints <- CalculateSAdjMFC(dat_list, subjectCol = subjectCol, ...)
+      endpoints <- CalculateSAdjMFC(dat_list, subjectCol = subjectCol,
+                                    method = fit, ...)
       mod <- endpoints$models[[strain]]
       gg <- gg + geom_text(aes(x = 6,#mean(unique(d0), na.rm = TRUE),
                                y = quantile(unique(fc), 0.95)),

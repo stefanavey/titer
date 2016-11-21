@@ -4,11 +4,14 @@
 \alias{BubbleChart}
 \title{Bubble Chart}
 \usage{
-BubbleChart(dat_list, subjectCol = "SubjectID", colorBy = NULL,
-  xlimits = c(1.5, 10.5), xbreaks = 2:10, plot = TRUE, cols = 2, ...)
+BubbleChart(dat_list, fit = NULL, subjectCol = "SubjectID",
+  colorBy = NULL, xlimits = c(1.5, 10.5), xbreaks = 2:10, plot = TRUE,
+  cols = 2, ...)
 }
 \arguments{
 \item{dat_list}{a named list like the one returned by \code{\link{FormatTiters}}}
+
+\item{fit}{what type of fit to add. Current options are "lm" for linear model, "exp" for exponential, or \code{NULL} for no smoothing.}
 
 \item{subjectCol}{the name of the column specifying a subject ID. Default is "SubjectID".}
 
@@ -22,7 +25,7 @@ BubbleChart(dat_list, subjectCol = "SubjectID", colorBy = NULL,
 
 \item{cols}{numeric specifying how many columns to layout plot}
 
-\item{...}{other arguments passed to \code{\link{CalculateSAdjMFC}}. Specifying \code{fit} will add to the plot}
+\item{...}{other arguments besides \code{method} and \code{subjectCol} passed to \code{\link{CalculateSAdjMFC}}.}
 
 \item{scale_y}{a character string specifying whether the y axis should be "fixed" for all strains or "free".}
 }
@@ -39,9 +42,8 @@ This plot was designed for HAI titer data with baseline columns and fold change 
 ## Prepare the data
 library(dplyr)
 library(ggplot2)
-titers <- filter(Year2_Titers, AgeGroup == "Young")
 strains <- c("A_California_7_2009", "A_Perth_16_2009", "B_Brisbane_60_2008")
-titer_list <- FormatTiters(titers, strains, subjectCol = "YaleID")
+titer_list <- FormatTiters(Year2_Titers, strains, subjectCol = "YaleID")
 
 ## Basic plot without any fitted model
 BubbleChart(titer_list)
@@ -54,6 +56,9 @@ BubbleChart(titer_list, method = "lm", subjectCol = "YaleID")
 
 ## Add an exponential fit
 BubbleChart(titer_list, method = "exp", subjectCol = "YaleID")
+
+## Add coloring by age
+
 }
 \author{
 Stefan Avey
