@@ -1,4 +1,4 @@
-# titeR - An R package for antibody titer data <img src="logo.png" align="right" />
+# titeR <img src="logo.png" align="right" height = "42" width = "42" />
 
 
 ## Overview
