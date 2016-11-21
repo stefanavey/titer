@@ -1,0 +1,11 @@
+Package: titeR
+Title: Tools for analyzing and visualizing antibody titer data.
+Version: 0.0.1.0000
+Authors@R: "Stefan Avey <stefan.avey@yale.edu> [aut, cre]"
+Description: This package contains methods to calculate endpoints from
+	     antibody titer data and visualize titers.
+Depends:
+    R (>= 3.0.2)
+License: CCO
+LazyData: true
+RoxygenNote: 5.0.1
