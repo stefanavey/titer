@@ -26,8 +26,7 @@ Barplot(dat_list, subjectCol = "SubjectID", cols = 1, groupVar = NULL,
 \examples{
 ## Prepare the data
 strains <- c("A_California_7_2009", "A_Perth_16_2009", "B_Brisbane_60_2008")
-titer_list <- FormatTiters(Year1_Titers, strains, subjectCol = "YaleID",
-                           otherCols = "AgeGroup")
+titer_list <- FormatTiters(Year1_Titers, strains, subjectCol = "YaleID", otherCols = "AgeGroup")
 
 ## Bar plot of a single strain
 Barplot(titer_list[strains[1]], subjectCol = "YaleID")
