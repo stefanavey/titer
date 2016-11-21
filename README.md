@@ -1,4 +1,5 @@
-# titeR - An R package for antibody titer data
+# titeR - An R package for antibody titer data <img src="logo.png" align="right" />
+
 
 ## Overview
 
