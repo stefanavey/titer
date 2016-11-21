@@ -85,13 +85,15 @@ BubbleChart <- function(dat_list, subjectCol = "SubjectID", colorBy = NULL,
                                y = quantile(unique(fc), 0.95)),
                            label = GetEqn(mod),
                            parse = TRUE, size = 2.5, color = "black")
-      if(!is.null(colorBy)) {
-        if(colorBy %in% names(endpoints)) {
+      if (!is.null(colorBy)) {
+        if (colorBy %in% names(endpoints)) {
           plotDat[[colorBy]] <- endpoints[[colorBy]][as.character(plotDat[[subjectCol]])]
+        }
+        if (colorBy %in% colnames(plotDat)) {
           gg <- gg + geom_count(data = plotDat, mapping = aes_string(color = colorBy),
                                 position = position_jitter(width = 0.2, height = 0.2))
         } else {
-            stop("`colorBy` must be a valid endpoint name from CalculateSAdjMFC()")
+            stop("`colorBy` must be the name of a column in dat_list or a valid endpoint name from CalculateSAdjMFC()")
           }
       } else {
           gg <- gg + geom_count()

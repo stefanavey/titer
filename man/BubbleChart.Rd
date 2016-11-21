@@ -4,13 +4,15 @@
 \alias{BubbleChart}
 \title{Bubble Chart}
 \usage{
-BubbleChart(dat_list, fit = NULL, subjectCol = "SubjectID",
-  xlimits = c(1.5, 10.5), xbreaks = 2:10, plot = TRUE, cols = 2)
+BubbleChart(dat_list, subjectCol = "SubjectID", colorBy = NULL,
+  xlimits = c(1.5, 10.5), xbreaks = 2:10, plot = TRUE, cols = 2, ...)
 }
 \arguments{
 \item{dat_list}{a named list like the one returned by \code{\link{FormatTiters}}}
 
-\item{fit}{what type of fit to add. Current options are "lm" for linear model, "exp" for exponential, or \code{NULL} for no smoothing.}
+\item{subjectCol}{the name of the column specifying a subject ID. Default is "SubjectID".}
+
+\item{colorBy}{a character string specifying an endpoint to colorBy or \code{NULL} (default) for no coloring.}
 
 \item{xlimits}{the x-axis limits (passed to \code{scale_x_continuous})}
 
@@ -19,6 +21,8 @@ BubbleChart(dat_list, fit = NULL, subjectCol = "SubjectID",
 \item{plot}{logical indicating whether to plot or not. Default is TRUE}
 
 \item{cols}{numeric specifying how many columns to layout plot}
+
+\item{...}{other arguments passed to \code{\link{CalculateSAdjMFC}}. Specifying \code{fit} will add to the plot}
 
 \item{scale_y}{a character string specifying whether the y axis should be "fixed" for all strains or "free".}
 }
@@ -46,10 +50,10 @@ BubbleChart(titer_list)
 BubbleChart(titer_list, cols = 1)
 
 ## Add a linear fit
-BubbleChart(titer_list, fit = "lm", subjectCol = "YaleID")
+BubbleChart(titer_list, method = "lm", subjectCol = "YaleID")
 
 ## Add an exponential fit
-BubbleChart(titer_list, fit = "exp", subjectCol = "YaleID")
+BubbleChart(titer_list, method = "exp", subjectCol = "YaleID")
 }
 \author{
 Stefan Avey
