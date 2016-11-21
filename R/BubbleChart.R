@@ -5,12 +5,14 @@
 #' This plot was designed for HAI titer data with baseline columns and fold change columns for multiple strains.
 #'
 #' @param dat_list a named list like the one returned by \code{\link{FormatTiters}}
-#' @param fit what type of fit to add. Current options are "lm" for linear model, "exp" for exponential, or \code{NULL} for no smoothing.
+#' @param subjectCol the name of the column specifying a subject ID. Default is "SubjectID". 
+#' @param colorBy a character string specifying an endpoint to colorBy or \code{NULL} (default) for no coloring.
 #' @param xlimits the x-axis limits (passed to \code{scale_x_continuous})
 #' @param xbreaks the x-axis breaks (passed to \code{scale_x_continuous})
 #' @param plot logical indicating whether to plot or not. Default is TRUE
 #' @param cols numeric specifying how many columns to layout plot
 #' @param scale_y a character string specifying whether the y axis should be "fixed" for all strains or "free".
+#' @param ... other arguments passed to \code{\link{CalculateSAdjMFC}}. Specifying \code{fit} will add to the plot 
 #' @return (invisibly) a list of ggplot2 objects.
 #' 
 #' @import grid ggplot2
@@ -33,14 +35,13 @@
 #' BubbleChart(titer_list, cols = 1)
 #'
 #' ## Add a linear fit
-#' BubbleChart(titer_list, fit = "lm", subjectCol = "YaleID")
+#' BubbleChart(titer_list, method = "lm", subjectCol = "YaleID")
 #' 
 #' ## Add an exponential fit
-#' BubbleChart(titer_list, fit = "exp", subjectCol = "YaleID")
-BubbleChart <- function(dat_list, fit = NULL,
-                        subjectCol = "SubjectID",
+#' BubbleChart(titer_list, method = "exp", subjectCol = "YaleID")
+BubbleChart <- function(dat_list, subjectCol = "SubjectID", colorBy = NULL,
                         xlimits = c(1.5, 10.5), xbreaks = 2:10,
-                        plot = TRUE, cols = 2) {
+                        plot = TRUE, cols = 2, ...) {
   plotList <- list()
   ## Determine upper limit for size of counts
   upLim <- max(sapply(dat_list, function(plotDat) {
@@ -57,8 +58,6 @@ BubbleChart <- function(dat_list, fit = NULL,
       geom_hline(aes(yintercept = log2(1)), color = "black") + 
       geom_hline(aes(yintercept = log2(4)), color = "grey20", alpha = 0.5) +
       geom_vline(aes(xintercept = log2(40)), color = "grey20", alpha = 0.5) +
-      ## geom_count(position = position_jitter(width = 0.2, height = 0.2)) +
-      geom_count() +
       scale_size(range = c(2,7), limits = c(1, upLim)) +
       scale_x_continuous(limits = xlimits, breaks = xbreaks) +
       xlab(expression("log"[2]("day 0 titer"))) +
@@ -80,13 +79,26 @@ BubbleChart <- function(dat_list, fit = NULL,
           }
       ## Add text to plot with formula
       ## Calling this function is an easy way to get the formulas
-      endpoints <- CalculateSAdjMFC(dat_list, subjectCol = subjectCol, method = fit)
+      endpoints <- CalculateSAdjMFC(dat_list, subjectCol = subjectCol, ...)
       mod <- endpoints$models[[strain]]
       gg <- gg + geom_text(aes(x = 6,#mean(unique(d0), na.rm = TRUE),
                                y = quantile(unique(fc), 0.95)),
                            label = GetEqn(mod),
                            parse = TRUE, size = 2.5, color = "black")
-    }
+      if(!is.null(colorBy)) {
+        if(colorBy %in% names(endpoints)) {
+          plotDat[[colorBy]] <- endpoints[[colorBy]][as.character(plotDat[[subjectCol]])]
+          gg <- gg + geom_count(data = plotDat, mapping = aes_string(color = colorBy),
+                                position = position_jitter(width = 0.2, height = 0.2))
+        } else {
+            stop("`colorBy` must be a valid endpoint name from CalculateSAdjMFC()")
+          }
+      } else {
+          gg <- gg + geom_count()
+        }
+    } else {
+        gg <- gg + geom_count()
+      }
     plotList[[strain]] <- gg
   }
   if(plot) {
