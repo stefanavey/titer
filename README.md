@@ -1,4 +1,4 @@
-# titeR <img src="logo.png" align="right" height = "42" width = "42" />
+# titeR <img src="logo.png" align="right" />
 
 
 ## Overview
