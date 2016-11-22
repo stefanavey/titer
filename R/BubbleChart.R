@@ -14,7 +14,6 @@
 #' @param plot logical indicating whether to plot or not. Default is TRUE
 #' @param cols numeric specifying how many columns to layout plot
 #' @param ... other arguments besides \code{method} and \code{subjectCol} passed to \code{\link{CalculateSAdjMFC}}.
-#' @param scale_y a character string specifying whether the y axis should be "fixed" for all strains or "free".
 #' @return (invisibly) a list of ggplot2 objects.
 #' 
 #' @import grid ggplot2

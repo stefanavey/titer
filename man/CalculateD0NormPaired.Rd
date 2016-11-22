@@ -36,5 +36,4 @@ pattern as \code{fcStdCols} with "d0" replacing "fc" in the name.
 \author{
 Stefan Avey
 }
-\keyword{HIPC}
 

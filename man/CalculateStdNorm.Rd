@@ -19,7 +19,7 @@ when \code{type == "fc"}}
 
 \item{idCol}{Name of column containing subject IDs}
 
-\item{Cols}{column names containing the titer measurements
+\item{cols}{column names containing the titer measurements
 for each strain}
 }
 \value{
@@ -43,5 +43,4 @@ Stefan Avey
 \references{
 Tsang JS, et al. (2014) Global analyses of human immune variation reveal baseline predictors of postvaccination responses. Cell 157(2):499–513.
 }
-\keyword{HIPC}
 

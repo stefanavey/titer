@@ -11,9 +11,11 @@ Barplot(dat_list, subjectCol = "SubjectID", cols = 1, groupVar = NULL,
 \arguments{
 \item{dat_list}{a named list like the one returned by \code{\link{FormatTiters}}.}
 
-\item{subjectCol}{}
+\item{subjectCol}{the name of the column specifying a subject ID. Default is "SubjectID".}
 
 \item{cols}{numeric specifying how many columns to layout plot}
+
+\item{groupVar}{an optional character string specifying a grouping variable. May be either a variable in \code{dat_list} or an endpoint. Default is \code{NULL}}
 
 \item{colors}{a vector of colors specifying bar colors. If \code{dat_list} contains more than 4 elements, you must specify your own colors.}
 }

@@ -28,8 +28,6 @@ BubbleChart(dat_list, fit = NULL, eqSize = 2.5, subjectCol = "SubjectID",
 \item{cols}{numeric specifying how many columns to layout plot}
 
 \item{...}{other arguments besides \code{method} and \code{subjectCol} passed to \code{\link{CalculateSAdjMFC}}.}
-
-\item{scale_y}{a character string specifying whether the y axis should be "fixed" for all strains or "free".}
 }
 \value{
 (invisibly) a list of ggplot2 objects.

@@ -4,7 +4,7 @@
 \alias{Multiplot}
 \title{Multiple ggplot2 plots on the same page}
 \usage{
-Multiplot(..., plotlist = NULL, file, cols = 1, layout = NULL)
+Multiplot(..., plotlist = NULL, cols = 1, layout = NULL)
 }
 \arguments{
 \item{...}{ggplot objects}

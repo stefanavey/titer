@@ -8,7 +8,7 @@
 #' This must be run on only 1 cohort at a time because titers will be normalized
 #' across all subjects. The median is used but unlike the original reference,
 #' the standard deviation is calculated rather than the maximum absolute deviation.
-#'
+#' 
 #' @param dat       Data frame containing \code{fcStdCols}
 #' @param type      What should be standarized. Either "d0", or "fc".
 #' @param fcToOne   Logical. Are titer fold changes allowed to be less than 1
@@ -16,14 +16,14 @@
 #'                  Default is FALSE and no changes will be made. Only relevant
 #'                  when \code{type == "fc"}
 #' @param idCol     Name of column containing subject IDs
-#' @param Cols      column names containing the titer measurements
+#' @param cols      column names containing the titer measurements
 #'                  for each strain
 #' @return          A data frame like \code{dat} but with standarized columns added
 #'
 #' @import dplyr
+#' 
 #' @author Stefan Avey
 #' @references Tsang JS, et al. (2014) Global analyses of human immune variation reveal baseline predictors of postvaccination responses. Cell 157(2):499–513.
-#' @keywords HIPC
 #' @export
 #' @examples
 #' ## First Example
@@ -73,7 +73,6 @@ CalculateStdNorm <- function(dat, type, fcToOne = FALSE, idCol = "SubjectID",
 #' @return          a numeric vector containing the values from d0StdCols that
 #'                  correspond to the maximum over the strains of fcStdCols
 #' @author Stefan Avey
-#' @keywords HIPC
 #' @export
 #' @examples
 #' ## First Example
@@ -122,7 +121,6 @@ CalculateD0NormPaired <- function(dat,
 #' @seealso \code{lm}
 #' 
 #' @author Stefan Avey
-#' @keywords HIPC
 #' @export
 #' @examples
 #' ## First Example

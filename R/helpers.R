@@ -16,6 +16,7 @@
 #' @import grid
 #' @author R Cookbook
 #' @references \url{http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_\%28ggplot2\%29/}
+#' @export
 #' @examples
 #' library(ggplot2)
 #' 
@@ -44,7 +45,7 @@
 #'   theme(legend.position="none")        # No legend (redundant in this graph)
 #' 
 #' Multiplot(p1, p2, p3, p4, cols=2)
-Multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
+Multiplot <- function(..., plotlist=NULL, cols=1, layout=NULL) {
 
   ## Make a list from the ... arguments and plotlist
   plots <- c(list(...), plotlist)
@@ -91,6 +92,7 @@ Multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 #' @references original lm_eqn and inspiration from this SO post \url{http://stackoverflow.com/questions/7549694/ggplot2-adding-regression-line-equation-and-r2-on-graph}.
 #' @author Stefan Avey
 #' @keywords aveytoolkit
+#' @export
 #' @examples
 #' ## First Example
 #' 
@@ -142,6 +144,7 @@ GetEqn <- function(m)
 #' @references \url{http://stackoverflow.com/questions/28777626/how-do-i-combine-aes-and-aes-string-options}
 #' @export
 #' @examples
+#' library(ggplot2)
 #' v1 <- "mpg"
 #' v2 <- "qsec"
 #' ggplot(mtcars, aes(x=wt)) + ylab("") +
@@ -149,5 +152,5 @@ GetEqn <- function(m)
 #'    geom_line(aes_string(y=v2) + aes(color="two")) +
 #'    scale_color_manual(name="Val", values=c(one="#105B63",two="#BD4932"))
 `+.uneval` <- function(a,b) {
-  `class<-`(modifyList(a,b), "uneval")
+  `class<-`(utils::modifyList(a,b), "uneval")
 }

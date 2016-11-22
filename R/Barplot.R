@@ -5,8 +5,9 @@
 #'
 #' 
 #' @param dat_list a named list like the one returned by \code{\link{FormatTiters}}.
-#' @param subjectCol 
+#' @param subjectCol the name of the column specifying a subject ID. Default is "SubjectID".
 #' @param cols numeric specifying how many columns to layout plot
+#' @param groupVar an optional character string specifying a grouping variable. May be either a variable in \code{dat_list} or an endpoint. Default is \code{NULL}
 #' @param colors a vector of colors specifying bar colors. If \code{dat_list} contains more than 4 elements, you must specify your own colors.
 #' @return (invisibly) a list of ggplot2 object(s).
 #'

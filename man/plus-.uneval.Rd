@@ -10,6 +10,7 @@
 \code{+.uneval} is a helper function to allow adding aes and aes_string in ggplot2
 }
 \examples{
+library(ggplot2)
 v1 <- "mpg"
 v2 <- "qsec"
 ggplot(mtcars, aes(x=wt)) + ylab("") +

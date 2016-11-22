@@ -46,5 +46,4 @@ Stefan Avey
 \seealso{
 \code{lm}
 }
-\keyword{HIPC}
 
