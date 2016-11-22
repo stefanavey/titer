@@ -14,6 +14,7 @@
 #' @param datList a list with one data frame for each strain and each data frame containing the columns \code{fcCol} and \code{d0Col}. The order of each data frame must be the same and they must be the same dimensions. In addition, each data frame must be sorted by \code{d0Col} from low to high.
 #' @param subjectCol the name of the column specifying a subject ID. Default is "SubjectID".
 #' @param method a character string specifying the method used to model the relationship between day 0 and fold change values. One of either "lm" for a linear model or "exp" for an exponential model.
+#' @param yMinZero a logical specifying whether fitted y values below 0 should be set to 0.
 #' @param scoreFun a function applied to all (potentially scaled) residuals for each subject to determine the endpoint. Default is \code{max} but \code{sum} may also be useful to quantify the total response.
 #' @param fcCol character string specifying the name of the fold change column in each element of \code{datList}
 #' @param d0Col character string specifying the name of the day 0 column in each element of \code{datList}
@@ -37,7 +38,7 @@
 #' ## First Example
 #'
 CalculateSAdjMFC <- function(datList, subjectCol = "SubjectID",
-                             method = c("lm", "exp"),
+                             method = c("lm", "exp"), yMinZero = FALSE,
                              scoreFun = max,
                              fcCol = "fc", d0Col = "d0", normalize = TRUE,
                              discretize = c(0.2, 0.3), scaleResiduals = FALSE,
@@ -84,15 +85,14 @@ CalculateSAdjMFC <- function(datList, subjectCol = "SubjectID",
         form <- as.formula(paste(fcCol, "~ exp(a + b *", d0Col, ")"))
         model <- nls(data = dat, formula = form, start = list(a = 0, b = 0),
                      na.action = na_action, ...)
-        ## dups <- duplicated(dat[[d0Col]])
-        ## expFit <- data.frame(d0 = dat[[d0Col]][!dups],
-        ##                      fc = predict(model)[!dups])
-        ## residuals <- apply(dat, 1, function(row) {
-        ##                           as.numeric(row[fcCol]) -
-        ##                             as.numeric(expFit[expFit[["d0"]] == as.numeric(row[d0Col]),"fc"])
-                                ## })
       }
-    residuals <- residuals(model)
+    if(yMinZero && method == "lm") {
+      residuals <- residuals(model)
+      setToZero <- fitted(model) < 0
+      residuals[setToZero] <- 0
+    } else {
+        residuals <- residuals(model)
+      }
     names(residuals) <- dat[[subjectCol]]
     if(scaleResiduals) {
       cis <- stats::predict(model, na.action = na_action,

@@ -5,8 +5,8 @@
 \title{Calculate SAdjMFC}
 \usage{
 CalculateSAdjMFC(datList, subjectCol = "SubjectID", method = c("lm", "exp"),
-  scoreFun = max, fcCol = "fc", d0Col = "d0", normalize = TRUE,
-  discretize = c(0.2, 0.3), scaleResiduals = FALSE,
+  yMinZero = FALSE, scoreFun = max, fcCol = "fc", d0Col = "d0",
+  normalize = TRUE, discretize = c(0.2, 0.3), scaleResiduals = FALSE,
   responseLabels = paste0(c("low", "moderate", "high"), "Responder"),
   na_action = "na.fail", ...)
 }
@@ -16,6 +16,8 @@ CalculateSAdjMFC(datList, subjectCol = "SubjectID", method = c("lm", "exp"),
 \item{subjectCol}{the name of the column specifying a subject ID. Default is "SubjectID".}
 
 \item{method}{a character string specifying the method used to model the relationship between day 0 and fold change values. One of either "lm" for a linear model or "exp" for an exponential model.}
+
+\item{yMinZero}{a logical specifying whether fitted y values below 0 should be set to 0.}
 
 \item{scoreFun}{a function applied to all (potentially scaled) residuals for each subject to determine the endpoint. Default is \code{max} but \code{sum} may also be useful to quantify the total response.}
 

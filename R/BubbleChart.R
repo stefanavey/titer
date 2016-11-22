@@ -4,13 +4,16 @@
 #'
 #' This plot was designed for HAI titer data with baseline columns and fold change columns for multiple strains.
 #'
-#' @param dat_list a named list like the one returned by \code{\link{FormatTiters}}
+#' @param dat_list a named list like the one returned by \code{\link{FormatTiters}}. Values are assumed to be log2-transformed.
 #' @param fit what type of fit to add. Current options are "lm" for linear model, "exp" for exponential, or \code{NULL} for no smoothing.
+#' @param yMinZero a logical specifying whether fitted y values below 0 should be set to 0.
 #' @param eqSize Text size of the equation. Only relevant if \code{fit} is not \code{NULL}
 #' @param subjectCol the name of the column specifying a subject ID. Default is "SubjectID". 
 #' @param colorBy a character string specifying an endpoint to colorBy or \code{NULL} (default) for no coloring.
 #' @param xlimits the x-axis limits (passed to \code{scale_x_continuous})
 #' @param xbreaks the x-axis breaks (passed to \code{scale_x_continuous})
+#' @param ylimits the y-axis limits (passed to \code{scale_y_continuous})
+#' @param ybreaks the y-axis breaks (passed to \code{scale_y_continuous})
 #' @param plot logical indicating whether to plot or not. Default is TRUE
 #' @param cols numeric specifying how many columns to layout plot
 #' @param ... other arguments besides \code{method} and \code{subjectCol} passed to \code{\link{CalculateSAdjMFC}}.
@@ -41,9 +44,11 @@
 #'
 #' ## Add coloring by age
 #' BubbleChart(titer_list, fit = "exp", subjectCol = "YaleID", colorBy = "AgeGroup")
-BubbleChart <- function(dat_list, fit = NULL, eqSize = 2.5,
+BubbleChart <- function(dat_list, fit = NULL, yMinZero = FALSE,
+                        eqSize = 6 / log2(length(dat_list)+1),
                         subjectCol = "SubjectID", colorBy = NULL,
                         xlimits = c(1.5, 10.5), xbreaks = 2:10,
+                        ylimits = c(-0.5, 10), ybreaks = seq(0, 10, 2),
                         plot = TRUE, cols = 2, ...) {
   plotList <- list()
   ## Determine upper limit for size of counts
@@ -62,31 +67,44 @@ BubbleChart <- function(dat_list, fit = NULL, eqSize = 2.5,
       geom_hline(aes(yintercept = log2(4)), color = "grey20", alpha = 0.5) +
       geom_vline(aes(xintercept = log2(40)), color = "grey20", alpha = 0.5) +
       scale_size(range = c(2,7), limits = c(1, upLim)) +
-      scale_x_continuous(limits = xlimits, breaks = xbreaks) +
-      xlab(expression("log"[2]("day 0 titer"))) +
-      ylab(expression("log"[2]("day28 / day0 titer"))) + 
+      scale_y_continuous(limits = ylimits, breaks = ybreaks, labels = 2^ybreaks) +      
+      scale_x_continuous(limits = xlimits, breaks = xbreaks, labels = 2^xbreaks) +
+      ## xlab(expression("log"[2]("day 0 titer"))) +
+      xlab("Baseline Titer") +      
+      ## ylab(expression("log"[2]("day28 / day0 titer"))) +
+      ylab("Titer Fold Change") +       
       ggtitle(strain) + 
-      theme_bw()
+      theme_bw() +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))
     if(!is.null(fit)) {
+      ## Fit models and save endpoints
+      endpoints <- CalculateSAdjMFC(dat_list, subjectCol = subjectCol,
+                                    method = fit, yMinZero = yMinZero,  ...)
+      mod <- endpoints$models[[strain]]
       ## Plot the exponential curve or linear fit
       if(fit == "exp") {
-        gg <- gg + geom_smooth(method = "nls",
-                               formula = y ~ exp(a + b * x),
-                               method.args = list(start = c(a = 0, b = 0)),
-                               se = FALSE,
-                               color = "blue")
+        ggSmooth <-  geom_smooth(method = "nls",
+                                 formula = y ~ exp(a + b * x),
+                                 method.args = list(start = c(a = 0, b = 0)),
+                                 se = FALSE,
+                                 color = "blue")
       } else if (fit == "lm") {
-          gg <- gg + geom_smooth(method = "lm", aes(x = d0, y = fc), color = "blue")
+          xintercept <- -1 * coef(mod)["(Intercept)"] / coef(mod)["d0"]
+          if(yMinZero && (xintercept < max(plotDat$d0))) {
+            plotVals <- data.frame(d0 = c(min(plotDat$d0), xintercept, max(plotDat$d0)),
+                                   fc = c(mod$fitted.values[1], 0, 0))
+            ggSmooth <- geom_path(data = plotVals, color = "blue",
+                                  size = 1.1)
+          } else {
+              ggSmooth <- geom_smooth(method = "lm", aes(x = d0, y = fc),
+                                      color = "blue", se = FALSE)
+            }
         } else {
             stop("fit must be 'exp' or 'lm'")
           }
       ## Add text to plot with formula
-      ## Calling this function is an easy way to get the formulas
-      endpoints <- CalculateSAdjMFC(dat_list, subjectCol = subjectCol,
-                                    method = fit, ...)
-      mod <- endpoints$models[[strain]]
-      gg <- gg + geom_text(aes(x = 6,#mean(unique(d0), na.rm = TRUE),
-                               y = quantile(unique(fc), 0.95)),
+      gg <- gg + geom_text(aes(x = quantile(xlimits[1]:xlimits[2], 0.50),
+                               y = quantile(ylimits[1]:ylimits[2], 0.90)),
                            label = GetEqn(mod),
                            parse = TRUE, size = eqSize, color = "black")
       if (!is.null(colorBy)) { 
@@ -105,6 +123,10 @@ BubbleChart <- function(dat_list, fit = NULL, eqSize = 2.5,
     } else {
         gg <- gg + geom_count()
       }
+    ## Add smoothing after geom_count
+    if(!is.null(fit)) {
+      gg <- gg + ggSmooth
+    }
     plotList[[strain]] <- gg
   }
   if(plot) {

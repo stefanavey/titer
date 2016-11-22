@@ -4,14 +4,18 @@
 \alias{BubbleChart}
 \title{Bubble Chart}
 \usage{
-BubbleChart(dat_list, fit = NULL, eqSize = 2.5, subjectCol = "SubjectID",
-  colorBy = NULL, xlimits = c(1.5, 10.5), xbreaks = 2:10, plot = TRUE,
-  cols = 2, ...)
+BubbleChart(dat_list, fit = NULL, yMinZero = FALSE,
+  eqSize = 6/log2(length(dat_list) + 1), subjectCol = "SubjectID",
+  colorBy = NULL, xlimits = c(1.5, 10.5), xbreaks = 2:10,
+  ylimits = c(-0.5, 10), ybreaks = seq(0, 10, 2), plot = TRUE, cols = 2,
+  ...)
 }
 \arguments{
-\item{dat_list}{a named list like the one returned by \code{\link{FormatTiters}}}
+\item{dat_list}{a named list like the one returned by \code{\link{FormatTiters}}. Values are assumed to be log2-transformed.}
 
 \item{fit}{what type of fit to add. Current options are "lm" for linear model, "exp" for exponential, or \code{NULL} for no smoothing.}
+
+\item{yMinZero}{a logical specifying whether fitted y values below 0 should be set to 0.}
 
 \item{eqSize}{Text size of the equation. Only relevant if \code{fit} is not \code{NULL}}
 
@@ -22,6 +26,10 @@ BubbleChart(dat_list, fit = NULL, eqSize = 2.5, subjectCol = "SubjectID",
 \item{xlimits}{the x-axis limits (passed to \code{scale_x_continuous})}
 
 \item{xbreaks}{the x-axis breaks (passed to \code{scale_x_continuous})}
+
+\item{ylimits}{the y-axis limits (passed to \code{scale_y_continuous})}
+
+\item{ybreaks}{the y-axis breaks (passed to \code{scale_y_continuous})}
 
 \item{plot}{logical indicating whether to plot or not. Default is TRUE}
 
