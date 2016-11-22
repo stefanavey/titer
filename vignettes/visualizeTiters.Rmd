@@ -1,18 +1,17 @@
-<!--
-%\VignetteEngine{knitr}
-%\VignetteIndexEntry{Visualize Titers}
--->
+---
+title: "Visualizing Titers"
+author: "Stefan Avey"
+date: "`r Sys.Date()`"
+output: 
+      rmarkdown::html_vignette:
+        css: mystyles.css
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
 
-```{r knitr commands, eval=FALSE, echo=FALSE}
-
-## This is the command used to create the html file but should not be shown
-library(knitr)
-knit2html("visualizeTiters.Rmd", output = "visualizeTiters.html")
-
-```
-
-# Visualizing Titers
-
+## Format titer data
 ```{r readData}
 library(titeR)
 
@@ -26,7 +25,7 @@ titer_list <- FormatTiters(Year1_Titers, strains,
 
 Bar plots can show the raw data, baseline and day 28 titer values for each subject.
 
-```{r bars, fig.width = 12, fig.height = 8}
+```{r bars, fig.width = 9, fig.height = 6}
 
 ## Bar plot of B strain
 Barplot(titer_list["A_Perth_16_2009"], subjectCol = "YaleID")
@@ -40,7 +39,7 @@ Barplot(titer_list, subjectCol = "YaleID", groupVar = "AgeGroup")
 
 Bubble Charts show the relationship between baseline titer and fold change. In general, a negative slope is observed.
 
-```{r bubbles}
+```{r bubbles, fig.width = 7, fig.height = 7}
 
 ## Bubble Charts for all strains
 BubbleChart(titer_list)
@@ -51,15 +50,14 @@ BubbleChart(titer_list["A_Perth_16_2009"])
 ## Add an exponential fit and color by age group
 BubbleChart(titer_list["A_Perth_16_2009"], fit = "exp",
             subjectCol = "YaleID", colorBy = "AgeGroup",
-            eqSize = 6)
+            eqSize = 5)
 
 ```
 
-
-# Session Info
-
-```{r reproducibility}
-
-sessionInfo()
-
-```
+<!-- Add footer to HTML -->
+<div id="footer" class="footer">
+<footer>
+Built using <a href="http://rmarkdown.rstudio.com/index.html" target="_blank">R markdown</a> in `r R.version.string`.<br>
+<a href="https://github.com/stefanavey/titeR" target="_blank">titeR</a> package version `r packageVersion("titeR")`.
+</footer>
+</div>

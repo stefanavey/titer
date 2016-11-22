@@ -15,3 +15,6 @@ BugReports: https://github.com/stefanavey/titeR/issues
 License: CCO
 LazyData: true
 RoxygenNote: 5.0.1
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
