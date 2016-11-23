@@ -67,11 +67,12 @@ Barplot <- function(dat_list, subjectCol = "SubjectID", cols = 1,
         geom_hline(aes(yintercept = log2(40)), color = "grey20", alpha = 0.5) +
         geom_bar(stat = "identity", position = "dodge") +
         coord_cartesian(ylim = lims) +
-        scale_y_continuous(breaks = lims[1]:lims[2]) +
         scale_color_manual(values = c("white", "black"),
                            name = "4 Fold Change", guide = FALSE) +
         scale_fill_manual(values = colors[1:(length(dat_list)*2)], name = "Day.Strain") +
-        ylab(expression("log"[2]("HAI Titer"))) +
+        scale_y_continuous(breaks = ybreaks, labels = 2^ybreaks) +        
+        ## ylab(expression("log"[2]("HAI Titer"))) +
+        ylab("HAI Titer") +        
         theme_bw() +
         theme(strip.text =element_text(size = 16),
               axis.text = element_text(size = 14),
@@ -97,10 +98,10 @@ Barplot <- function(dat_list, subjectCol = "SubjectID", cols = 1,
         geom_hline(aes(yintercept = log2(40)), color = "grey20", alpha = 0.5) +
         geom_bar(stat = "identity", position = "dodge") +
         coord_cartesian(ylim = lims) +
-        scale_y_continuous(breaks = ybreaks, labels = 2^ybreaks) +
         scale_color_manual(values = c("white", "black"),
                            name = "4 Fold Change", guide = FALSE) +
         scale_fill_manual(values = colors[1:(length(dat_list)*2)], name = "Day.Strain") +
+        scale_y_continuous(breaks = ybreaks, labels = 2^ybreaks) +
         ## ylab(expression("log"[2]("HAI Titer"))) +
         ylab("HAI Titer") +        
         theme_bw() +
