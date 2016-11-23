@@ -1,14 +1,14 @@
-# titeR <img src="logo.png" align="right" height="140" width="109" />
+# titer <img src="logo.png" align="right" height="140" width="109" />
 
-[![Build Status](https://travis-ci.org/stefanavey/titeR.svg?branch=master)](https://travis-ci.org/stefanavey/titeR)
+[![Build Status](https://travis-ci.org/stefanavey/titer.svg?branch=master)](https://travis-ci.org/stefanavey/titer)
 
 ## Overview
 
-titeR is an R package for analysis and visualization of antibody titer data.  The intended use case is influenza antibody titer data measured by the hemagglutination inhibition assay (HAI).
+titer is an R package for analysis and visualization of antibody titer data.  The intended use case is influenza antibody titer data measured by the hemagglutination inhibition assay (HAI).
 
 ## Installation
 
 ```r
 library(devtools)
-devtools::install_github("stefanavey/titeR")
+devtools::install_github("stefanavey/titer")
 ```

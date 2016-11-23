@@ -67,8 +67,10 @@ BubbleChart <- function(dat_list, fit = NULL, yMinZero = FALSE,
       geom_hline(aes(yintercept = log2(4)), color = "grey20", alpha = 0.5) +
       geom_vline(aes(xintercept = log2(40)), color = "grey20", alpha = 0.5) +
       scale_size(range = c(2,7), limits = c(1, upLim)) +
-      scale_y_continuous(limits = ylimits, breaks = ybreaks, labels = 2^ybreaks) +      
-      scale_x_continuous(limits = xlimits, breaks = xbreaks, labels = 2^xbreaks) +
+      scale_y_continuous(limits = ylimits, labels = 2^ybreaks,
+                         breaks = ybreaks) +      
+      scale_x_continuous(limits = xlimits, labels = 2^xbreaks,
+                         breaks = xbreaks, minor_breaks = NULL) +
       ## xlab(expression("log"[2]("day 0 titer"))) +
       xlab("Baseline Titer") +      
       ## ylab(expression("log"[2]("day28 / day0 titer"))) +

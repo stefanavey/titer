@@ -1,6 +1,6 @@
-Package: titeR
+Package: titer
 Title: Tools for analyzing and visualizing antibody titer data
-Version: 0.0.1.0027
+Version: 0.0.1.0028
 Authors@R: "Stefan Avey <stefan.avey@yale.edu> [aut, cre]"
 Description: This package contains methods to calculate endpoints from
 	     antibody titer data and visualize titers.
@@ -11,8 +11,8 @@ Imports:
     dplyr,
     grid,
     ggplot2
-BugReports: https://github.com/stefanavey/titeR/issues    
-License: CCO
+BugReports: https://github.com/stefanavey/titer/issues    
+License: MIT + file LICENSE
 LazyData: true
 RoxygenNote: 5.0.1
 Suggests: knitr,

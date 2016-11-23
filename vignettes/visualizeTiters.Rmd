@@ -13,7 +13,7 @@ vignette: >
 
 ## Format titer data
 ```{r readData}
-library(titeR)
+library(titer)
 
 strains <- c("A_California_7_2009", "A_Perth_16_2009", "B_Brisbane_60_2008")
 titer_list <- FormatTiters(Year1_Titers, strains,
@@ -58,6 +58,6 @@ BubbleChart(titer_list["A_Perth_16_2009"], fit = "exp",
 <div id="footer" class="footer">
 <footer>
 Built using <a href="http://rmarkdown.rstudio.com/index.html" target="_blank">R markdown</a> in `r R.version.string`.<br>
-<a href="https://github.com/stefanavey/titeR" target="_blank">titeR</a> package version `r packageVersion("titeR")`.
+<a href="https://github.com/stefanavey/titer" target="_blank">titer</a> package version `r packageVersion("titer")`.
 </footer>
 </div>
