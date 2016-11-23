@@ -16,7 +16,6 @@
 #' @import grid
 #' @author R Cookbook
 #' @references \url{http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_\%28ggplot2\%29/}
-#' @export
 #' @examples
 #' library(ggplot2)
 #' 
@@ -92,7 +91,6 @@ Multiplot <- function(..., plotlist=NULL, cols=1, layout=NULL) {
 #' @references original lm_eqn and inspiration from this SO post \url{http://stackoverflow.com/questions/7549694/ggplot2-adding-regression-line-equation-and-r2-on-graph}.
 #' @author Stefan Avey
 #' @keywords aveytoolkit
-#' @export
 #' @examples
 #' ## First Example
 #' 
@@ -142,7 +140,6 @@ GetEqn <- function(m)
 #'
 #' 
 #' @references \url{http://stackoverflow.com/questions/28777626/how-do-i-combine-aes-and-aes-string-options}
-#' @export
 #' @examples
 #' library(ggplot2)
 #' v1 <- "mpg"
