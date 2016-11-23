@@ -16,34 +16,6 @@
 #' @import grid
 #' @author R Cookbook
 #' @references \url{http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_\%28ggplot2\%29/}
-#' @examples
-#' library(ggplot2)
-#' 
-#' ## This example uses the ChickWeight dataset, which comes with ggplot2
-#' ## First plot
-#' p1 <- ggplot(ChickWeight, aes(x=Time, y=weight, colour=Diet, group=Chick)) +
-#'   geom_line() +
-#'   ggtitle("Growth curve for individual chicks")
-#' 
-#'                                         # Second plot
-#' p2 <- ggplot(ChickWeight, aes(x=Time, y=weight, colour=Diet)) +
-#'   geom_point(alpha=.3) +
-#'   geom_smooth(alpha=.2, size=1) +
-#'   ggtitle("Fitted growth curve per diet")
-#' 
-#'                                         # Third plot
-#' p3 <- ggplot(subset(ChickWeight, Time==21), aes(x=weight, colour=Diet)) +
-#'   geom_density() +
-#'   ggtitle("Final weight, by diet")
-#' 
-#'                                         # Fourth plot
-#' p4 <- ggplot(subset(ChickWeight, Time==21), aes(x=weight, fill=Diet)) +
-#'   geom_histogram(colour="black", binwidth=50) +
-#'   facet_grid(Diet ~ .) +
-#'   ggtitle("Final weight, by diet") +
-#'   theme(legend.position="none")        # No legend (redundant in this graph)
-#' 
-#' Multiplot(p1, p2, p3, p4, cols=2)
 Multiplot <- function(..., plotlist=NULL, cols=1, layout=NULL) {
 
   ## Make a list from the ... arguments and plotlist
@@ -87,14 +59,11 @@ Multiplot <- function(..., plotlist=NULL, cols=1, layout=NULL) {
 #' \code{GetEqn} gets the equation for various models in a human readable format
 #'
 #'
+#' @param m a model object
 #' 
 #' @references original lm_eqn and inspiration from this SO post \url{http://stackoverflow.com/questions/7549694/ggplot2-adding-regression-line-equation-and-r2-on-graph}.
 #' @author Stefan Avey
 #' @keywords aveytoolkit
-#' @examples
-#' ## First Example
-#' 
-#' @param m a model object
 GetEqn <- function(m)
 {
   .lm_eqn <- function(m) {
@@ -140,14 +109,6 @@ GetEqn <- function(m)
 #'
 #' 
 #' @references \url{http://stackoverflow.com/questions/28777626/how-do-i-combine-aes-and-aes-string-options}
-#' @examples
-#' library(ggplot2)
-#' v1 <- "mpg"
-#' v2 <- "qsec"
-#' ggplot(mtcars, aes(x=wt)) + ylab("") +
-#'    geom_line(aes_string(y=v1) + aes(color="one")) +
-#'    geom_line(aes_string(y=v2) + aes(color="two")) +
-#'    scale_color_manual(name="Val", values=c(one="#105B63",two="#BD4932"))
 `+.uneval` <- function(a,b) {
   `class<-`(utils::modifyList(a,b), "uneval")
 }
