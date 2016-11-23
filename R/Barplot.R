@@ -16,38 +16,38 @@
 #' @export
 #' @examples
 #' ## Prepare the data
-#' strains <- c("A_California_7_2009", "A_Perth_16_2009", "B_Brisbane_60_2008")
-#' titer_list <- FormatTiters(Year1_Titers, strains, subjectCol = "YaleID", otherCols = "AgeGroup")
+#' titer_list <- FormatTiters(Year1_Titers)
 #'
 #' ## Bar plot of a single strain
-#' Barplot(titer_list[strains[1]], subjectCol = "YaleID")
+#' Barplot(titer_list["A California 7 2009"])
 #'
 #' ## Bar plot of all 3 strains
-#' Barplot(titer_list, subjectCol = "YaleID")
+#' Barplot(titer_list)
 #'
 #' ## Can improve readability of previous plot by separating into groups
 #' ## For example, group by AgeGroup
-#' Barplot(titer_list, subjectCol = "YaleID", groupVar = "AgeGroup")
+#' Barplot(titer_list, groupVar = "AgeGroup")
 Barplot <- function(dat_list, subjectCol = "SubjectID", cols = 1,
                     groupVar = NULL,
                     colors =
                       c("#A6CEE3", "#1F78B4", "#B2DF8A", "#33A02C",
                         "#FB9A99", "#E31A1C", "#FDBF6F", "#FF7F00"))
 {
+  if (sum(subjectCol == unlist(lapply(dat_list, colnames))) != length(dat_list)) {
+    stop("Must specify a valid subject column name using the `subjecCol` argument")
+  }
   plotList <- list()
   ## Convert list to data frame
   dat_df <- do.call(rbind.data.frame, dat_list) %>%
-    mutate(strain = rep(names(dat_list),
-               each = nrow(dat_list[[1]])),
-           d28 = d0 + fc) %>%
-    gather("condition", "titer", matches("(d0)|(28)|(fc)"))
-
+    gather("Condition", "titer", matches("(Pre)|(Post)|(FC)"))
+  ## Determine which subjects/strains had a fold change of at least 4
   fcDat <- dat_df %>%
-    filter(condition == "fc") %>%
+    filter(Condition == "FC") %>%
     mutate(fourFC = ifelse(titer >= log2(4), TRUE, FALSE)) %>%
-    select_(subjectCol, "strain", "fourFC")
-  plotDat <- full_join(dat_df, fcDat, by = c(subjectCol, "strain")) %>%
-    filter(condition != "fc")
+    select_(subjectCol, "Strain", "fourFC")
+  plotDat <- full_join(dat_df, fcDat, by = c(subjectCol, "Strain")) %>%
+    filter(Condition != "FC") %>%
+    mutate(Condition = factor(Condition, levels = c("Pre", "Post")))
   plotDat[[subjectCol]] <- factor(plotDat[[subjectCol]])
   lims <- c(min(plotDat$titer, na.rm = TRUE), max(plotDat$titer, na.rm = TRUE))
   ybreaks <- lims[1]:lims[2]
@@ -62,8 +62,8 @@ Barplot <- function(dat_list, subjectCol = "SubjectID", cols = 1,
       pd <- plotDat[toKeep, ]
       gg <- ggplot(pd, aes_string(x = subjectCol) +
                      aes(y = titer,
-                         group = interaction(condition, strain),
-                         fill = interaction(condition, strain), color = fourFC)) +
+                         group = interaction(Condition, Strain),
+                         fill = interaction(Condition, Strain), color = fourFC)) +
         geom_hline(aes(yintercept = log2(40)), color = "grey20", alpha = 0.5) +
         geom_bar(stat = "identity", position = "dodge") +
         coord_cartesian(ylim = lims) +
@@ -92,8 +92,8 @@ Barplot <- function(dat_list, subjectCol = "SubjectID", cols = 1,
       gg <- ggplot(plotDat,
                    aes_string(x = subjectCol) +
                      aes(y = titer,
-                         group = interaction(condition, strain),
-                         fill = interaction(condition, strain), color = fourFC)) +
+                         group = interaction(Condition, Strain),
+                         fill = interaction(Condition, Strain), color = fourFC)) +
         geom_hline(aes(yintercept = log2(40)), color = "grey20", alpha = 0.5) +
         geom_bar(stat = "identity", position = "dodge") +
         coord_cartesian(ylim = lims) +

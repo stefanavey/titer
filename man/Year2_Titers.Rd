@@ -6,9 +6,11 @@
 \title{Year 2 titers.}
 \format{A data frame with 69 rows and 11 variables:
 \describe{
-  \item{YaleID}{subject identifier, unique}
-  \item{AgeGroup}{age of subject. 20-35 (Young), >= 65 (Older)}
-  \item{...}{Other columns folow the format <type>_<strain> where <type> is either Day 0 ("d0"), Day 28 ("d28"), or fold change ("fc").}
+  \item{SubjectID}{a unique subject identifier}
+  \item{AgeGroup}{age of subject. 20-35 (Young),  65+ (Older)}
+  \item{Strain}{The name of the viral strain for the observation}
+  \item{Pre}{The pre-vaccination titer}
+  \item{Post}{The post-vaccination titer}
 }}
 \usage{
 Year2_Titers

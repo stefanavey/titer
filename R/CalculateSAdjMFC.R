@@ -11,13 +11,11 @@
 #' Missing (\code{NA}) values are handled by being returned as missing in the
 #' endpoints in the output
 #'
-#' @param datList a list with one data frame for each strain and each data frame containing the columns \code{fcCol} and \code{d0Col}. The order of each data frame must be the same and they must be the same dimensions. In addition, each data frame must be sorted by \code{d0Col} from low to high.
+#' @param dat_list a named list like the one returned by \code{\link{FormatTiters}}.
 #' @param subjectCol the name of the column specifying a subject ID. Default is "SubjectID".
 #' @param method a character string specifying the method used to model the relationship between day 0 and fold change values. One of either "lm" for a linear model or "exp" for an exponential model.
 #' @param yMinZero a logical specifying whether fitted y values below 0 should be set to 0.
 #' @param scoreFun a function applied to all (potentially scaled) residuals for each subject to determine the endpoint. Default is \code{max} but \code{sum} may also be useful to quantify the total response.
-#' @param fcCol character string specifying the name of the fold change column in each element of \code{datList}
-#' @param d0Col character string specifying the name of the day 0 column in each element of \code{datList}
 #' @param normalize Logical specifying whether residuals should be normalized with the inverse normal transform. Default is \code{TRUE}.
 #' @param discretize a vector of quantiles in (0, 0.5] specifying where to make the cutoff for low, moderate and high responses. Default is 20\% and 30\%.
 #' @param scaleResiduals Logical. Should residuals be scaled inversely by the
@@ -27,33 +25,37 @@
 #' @param ... Additional arguments passed to \code{lm} if method == "lm" or \code{nls} if method == "exp"
 #'
 #' @return A list with the following elements:
-#'         "models":         the models calculated on each strain separately (with names the same as on \code{datList})
-#'         "residualMatrix": the matrix of residuals
-#'         "SAdjMFC":        a list containing the continuous and discrete SAdjMFC metrics
+#' \describe{
+#'   \item{models}{the models calculated on each strain separately (with names the same as on \code{dat_list})}
+#'   \item{residualMatrix}{the matrix of residuals}
+#'   \item{SAdjMFC}{a list containing the continuous and discrete SAdjMFC metrics}
+#' }
 #' @seealso \code{lm, nls}
 #' @author Stefan Avey
-#' @keywords HIPC
 #' @export
 #' @examples
-#' ## First Example
+#' ## Prepare the data
+#' titer_list <- FormatTiters(Year2_Titers)
 #'
-CalculateSAdjMFC <- function(datList, subjectCol = "SubjectID",
-                             method = c("lm", "exp"), yMinZero = FALSE,
-                             scoreFun = max,
-                             fcCol = "fc", d0Col = "d0", normalize = TRUE,
-                             discretize = c(0.2, 0.3), scaleResiduals = FALSE,
+#' ## Using a linear fit
+#' endpoints <- CalculateSAdjMFC(titer_list, method = "lm")
+#' summary(endpoints)
+#' ## Get discrete endpoints using upper/lower 30%
+#' endpoints$SAdjMFC_d30
+#'
+#' ## Get endpoints with a 50% split into high and low
+#' endpoints <- CalculateSAdjMFC(titer_list, method = "exp", discretize = 0.5)
+#' endpoints$SAdjMFC_d50
+CalculateSAdjMFC <- function(dat_list, subjectCol = "SubjectID",
+                             method = c("exp", "lm"), yMinZero = FALSE,
+                             scoreFun = max, discretize = c(0.2, 0.3),
+                             normalize = TRUE, scaleResiduals = FALSE,
                              responseLabels = paste0(c("low", "moderate", "high"),
                                  "Responder"), na_action = "na.fail",
                              ...) {
   method <- match.arg(method)
-  if(length(unique(lapply(datList, dim))) != 1) {
-    stop("Each data frame in `datList` must have the same dimensions")
-  }
-  if(! fcCol %in% Reduce(intersect, lapply(datList, colnames))) {
-    stop("fcCol ('", fcCol, "') not found in column names of dat")
-  }
-  if(! d0Col %in% Reduce(intersect, lapply(datList, colnames))) {
-    stop("d0Col ('", d0Col, "') not found in column names of dat")
+  if(length(unique(lapply(dat_list, dim))) != 1) {
+    stop("Each data frame in `dat_list` must have the same dimensions")
   }
   if(method == "exp" && scaleResiduals) {
     warning("Scaling of residuals is not implemented for method == 'exp'.")
@@ -70,20 +72,19 @@ CalculateSAdjMFC <- function(datList, subjectCol = "SubjectID",
   }
   residuals_list <- model_list <- list()
   ## Calculate residual for each strain
-  for(i in seq_along(datList)) {
-    dat <- datList[[i]]
+  for(i in seq_along(dat_list)) {
+    dat <- dat_list[[i]]
     rownames(dat) <- NULL               # most rownames will break this code
-    ## Check if arranged in order of d0 column
-    ord <- order(dat[[d0Col]])
+    ## Check if arranged in order of Pre column
+    ord <- order(dat$Pre)
     if(!all(ord == 1:nrow(dat))) {
-      stop("`datList[[", i, "]]` is not ordered by ", d0Col, " from low to high!")
+      stop("`dat_list[[", i, "]]` is not ordered by 'Pre' column. Use only output from `FormatTiters`!")
     }
     if(method == "lm") {
-      form <- as.formula(paste(fcCol, "~", d0Col))
-      model <- lm(data = dat, formula = form, na.action = na_action, ...)
+      model <- lm(data = dat, formula = "FC ~ Pre", na.action = na_action, ...)
     } else if (method == "exp") {
-        form <- as.formula(paste(fcCol, "~ exp(a + b *", d0Col, ")"))
-        model <- nls(data = dat, formula = form, start = list(a = 0, b = 0),
+        model <- nls(data = dat, formula = "FC ~ exp(a + b * Pre)",
+                     start = list(a = 0, b = 0),
                      na.action = na_action, ...)
       }
     if(yMinZero && method == "lm") {
@@ -109,7 +110,7 @@ CalculateSAdjMFC <- function(datList, subjectCol = "SubjectID",
   } else {
       residual_mat <- matrix(residuals_list[[1]], ncol = 1)
     }
-  colnames(residual_mat) <- names(datList)
+  colnames(residual_mat) <- names(dat_list)
   if(normalize) {
     residual_mat <- apply(residual_mat, 2, .INT)
   }
@@ -130,7 +131,7 @@ CalculateSAdjMFC <- function(datList, subjectCol = "SubjectID",
   }
   disList <- setNames(disList, paste0("SAdjMFC_d",
                                       as.character(as.numeric(names(disList))*100)))
-  names(model_list) <- names(datList)
+  names(model_list) <- names(dat_list)
   return(c(models = list(model_list), residualMatrix = list(residual_mat),
            SAdjMFC = list(SAdjMFC), disList))
 }

@@ -5,11 +5,12 @@
 #' @docType data
 #' @format A data frame with 69 rows and 11 variables:
 #' \describe{
-#'   \item{YaleID}{subject identifier, unique}
-#'   \item{AgeGroup}{age of subject. 20-35 (Young), >= 65 (Older)}
-#'   \item{...}{Other columns folow the format <type>_<strain> where <type> is either Day 0 ("d0"), Day 28 ("d28"), or fold change ("fc").}
+#'   \item{SubjectID}{a unique subject identifier}
+#'   \item{AgeGroup}{age of subject. 20-35 (Young),  65+ (Older)}
+#'   \item{Strain}{The name of the viral strain for the observation}
+#'   \item{Pre}{The pre-vaccination titer}
+#'   \item{Post}{The post-vaccination titer}
 #' }
-#' 
 #' @references  Thakar J, et al. (2015) Aging-dependent alterations in gene expression and a mitochondrial signature of responsiveness to human influenza vaccination. Aging (Albany NY) 7(1):38–52. \url{https://www.ncbi.nlm.nih.gov/pubmed/25596819}
 "Year2_Titers"
 

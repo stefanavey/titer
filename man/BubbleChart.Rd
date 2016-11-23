@@ -4,22 +4,21 @@
 \alias{BubbleChart}
 \title{Bubble Chart}
 \usage{
-BubbleChart(dat_list, fit = NULL, yMinZero = FALSE,
-  eqSize = 6/log2(length(dat_list) + 1), subjectCol = "SubjectID",
-  colorBy = NULL, xlimits = c(1.5, 10.5), xbreaks = 2:10,
-  ylimits = c(-0.5, 10), ybreaks = seq(0, 10, 2), plot = TRUE, cols = 2,
-  ...)
+BubbleChart(dat_list, subjectCol = "SubjectID", fit = NULL,
+  yMinZero = FALSE, eqSize = 6/log2(length(dat_list) + 1), colorBy = NULL,
+  xlimits = c(1.5, 10.5), xbreaks = 2:10, ylimits = c(-0.5, 10),
+  ybreaks = seq(0, 10, 2), plot = TRUE, cols = 2, ...)
 }
 \arguments{
 \item{dat_list}{a named list like the one returned by \code{\link{FormatTiters}}. Values are assumed to be log2-transformed.}
+
+\item{subjectCol}{the name of the column specifying a subject ID. Default is "SubjectID".}
 
 \item{fit}{what type of fit to add. Current options are "lm" for linear model, "exp" for exponential, or \code{NULL} for no smoothing.}
 
 \item{yMinZero}{a logical specifying whether fitted y values below 0 should be set to 0.}
 
 \item{eqSize}{Text size of the equation. Only relevant if \code{fit} is not \code{NULL}}
-
-\item{subjectCol}{the name of the column specifying a subject ID. Default is "SubjectID".}
 
 \item{colorBy}{a character string specifying an endpoint to colorBy or \code{NULL} (default) for no coloring.}
 
@@ -48,24 +47,22 @@ This plot was designed for HAI titer data with baseline columns and fold change 
 }
 \examples{
 ## Prepare the data
-strains <- c("A_California_7_2009", "A_Perth_16_2009", "B_Brisbane_60_2008")
-titer_list <- FormatTiters(Year2_Titers, strains, subjectCol = "YaleID",
-                           otherCols = "AgeGroup")
+titer_list <- FormatTiters(Year2_Titers)
 
 ## Basic plot without any fitted model
 BubbleChart(titer_list)
 
-## Change layout to plot 3 strains in a single column
+## Change layout to plot all in a single column
 BubbleChart(titer_list, cols = 1)
 
 ## Add a linear fit
-BubbleChart(titer_list, fit = "lm", subjectCol = "YaleID")
+BubbleChart(titer_list, fit = "lm")
 
 ## Add an exponential fit
-BubbleChart(titer_list, fit = "exp", subjectCol = "YaleID")
+BubbleChart(titer_list, fit = "exp")
 
 ## Add coloring by age
-BubbleChart(titer_list, fit = "exp", subjectCol = "YaleID", colorBy = "AgeGroup")
+BubbleChart(titer_list, fit = "exp", colorBy = "AgeGroup")
 }
 \author{
 Stefan Avey

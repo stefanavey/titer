@@ -26,43 +26,43 @@
 #' @export
 #' @examples
 #' ## Prepare the data
-#' strains <- c("A_California_7_2009", "A_Perth_16_2009", "B_Brisbane_60_2008")
-#' titer_list <- FormatTiters(Year2_Titers, strains, subjectCol = "YaleID",
-#'                            otherCols = "AgeGroup")
+#' titer_list <- FormatTiters(Year2_Titers)
 #'
 #' ## Basic plot without any fitted model
 #' BubbleChart(titer_list)
 #'
-#' ## Change layout to plot 3 strains in a single column
+#' ## Change layout to plot all in a single column
 #' BubbleChart(titer_list, cols = 1)
 #'
 #' ## Add a linear fit
-#' BubbleChart(titer_list, fit = "lm", subjectCol = "YaleID")
+#' BubbleChart(titer_list, fit = "lm")
 #' 
 #' ## Add an exponential fit
-#' BubbleChart(titer_list, fit = "exp", subjectCol = "YaleID")
+#' BubbleChart(titer_list, fit = "exp")
 #'
 #' ## Add coloring by age
-#' BubbleChart(titer_list, fit = "exp", subjectCol = "YaleID", colorBy = "AgeGroup")
-BubbleChart <- function(dat_list, fit = NULL, yMinZero = FALSE,
+#' BubbleChart(titer_list, fit = "exp", colorBy = "AgeGroup")
+BubbleChart <- function(dat_list, subjectCol = "SubjectID",
+                        fit = NULL, yMinZero = FALSE,
                         eqSize = 6 / log2(length(dat_list)+1),
-                        subjectCol = "SubjectID", colorBy = NULL,
+                        colorBy = NULL,
                         xlimits = c(1.5, 10.5), xbreaks = 2:10,
                         ylimits = c(-0.5, 10), ybreaks = seq(0, 10, 2),
                         plot = TRUE, cols = 2, ...) {
+  if (sum(subjectCol == unlist(lapply(dat_list, colnames))) != length(dat_list)) {
+    stop("Must specify a valid subject column name using the `subjecCol` argument")
+  }
   plotList <- list()
   ## Determine upper limit for size of counts
   upLim <- max(sapply(dat_list, function(plotDat) {
-                        coords <- paste(na.omit(plotDat[,"d0"]),
-                                        na.omit(plotDat[,"fc"]), sep = ',')
+                        coords <- paste(na.omit(plotDat[,"Pre"]),
+                                        na.omit(plotDat[,"FC"]), sep = ',')
                         max(table(coords))
                       }))
   ## Plots for each individual strain
-  for(strain in names(dat_list)) {
-    d0Col <- paste0("d0_", strain)
-    fcCol <- paste0("fc_", strain)
+  for (strain in names(dat_list)) {
     plotDat <- dat_list[[strain]]
-    gg <- ggplot(plotDat, aes(x = d0, y = fc)) +
+    gg <- ggplot(plotDat, aes(x = Pre, y = FC)) +
       geom_hline(aes(yintercept = log2(1)), color = "black") + 
       geom_hline(aes(yintercept = log2(4)), color = "grey20", alpha = 0.5) +
       geom_vline(aes(xintercept = log2(40)), color = "grey20", alpha = 0.5) +
@@ -78,27 +78,27 @@ BubbleChart <- function(dat_list, fit = NULL, yMinZero = FALSE,
       ggtitle(strain) + 
       theme_bw() +
       theme(axis.text.x = element_text(angle = 45, hjust = 1))
-    if(!is.null(fit)) {
+    if (!is.null(fit)) {
       ## Fit models and save endpoints
       endpoints <- CalculateSAdjMFC(dat_list, subjectCol = subjectCol,
                                     method = fit, yMinZero = yMinZero,  ...)
       mod <- endpoints$models[[strain]]
       ## Plot the exponential curve or linear fit
-      if(fit == "exp") {
+      if (fit == "exp") {
         ggSmooth <-  geom_smooth(method = "nls",
                                  formula = y ~ exp(a + b * x),
                                  method.args = list(start = c(a = 0, b = 0)),
                                  se = FALSE,
                                  color = "blue")
       } else if (fit == "lm") {
-          xintercept <- -1 * coef(mod)["(Intercept)"] / coef(mod)["d0"]
-          if(yMinZero && (xintercept < max(plotDat$d0))) {
-            plotVals <- data.frame(d0 = c(min(plotDat$d0), xintercept, max(plotDat$d0)),
-                                   fc = c(mod$fitted.values[1], 0, 0))
+          xintercept <- -1 * coef(mod)["(Intercept)"] / coef(mod)["Pre"]
+          if (yMinZero && (xintercept < max(plotDat$Pre))) {
+            plotVals <- data.frame(Pre = c(min(plotDat$Pre), xintercept, max(plotDat$Pre)),
+                                   FC = c(mod$fitted.values[1], 0, 0))
             ggSmooth <- geom_path(data = plotVals, color = "blue",
                                   size = 1.1)
           } else {
-              ggSmooth <- geom_smooth(method = "lm", aes(x = d0, y = fc),
+              ggSmooth <- geom_smooth(method = "lm", aes(x = Pre, y = FC),
                                       color = "blue", se = FALSE)
             }
         } else {
@@ -126,12 +126,12 @@ BubbleChart <- function(dat_list, fit = NULL, yMinZero = FALSE,
         gg <- gg + geom_count()
       }
     ## Add smoothing after geom_count
-    if(!is.null(fit)) {
+    if (!is.null(fit)) {
       gg <- gg + ggSmooth
     }
     plotList[[strain]] <- gg
   }
-  if(plot) {
+  if (plot) {
     Multiplot(plotlist = plotList, cols = cols)
   }
   return(invisible(plotList))

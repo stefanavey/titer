@@ -15,9 +15,9 @@ vignette: >
 ```{r readData}
 library(titer)
 
-strains <- c("A_California_7_2009", "A_Perth_16_2009", "B_Brisbane_60_2008")
-titer_list <- FormatTiters(Year1_Titers, strains,
-                           subjectCol = "YaleID", otherCols = "AgeGroup")
+head(Year1_Titers)
+titer_list <- FormatTiters(Year1_Titers)
+lapply(titer_list, head)
 
 ```
 
@@ -28,10 +28,10 @@ Bar plots can show the raw data, baseline and day 28 titer values for each subje
 ```{r bars, fig.width = 9, fig.height = 6}
 
 ## Bar plot of B strain
-Barplot(titer_list["A_Perth_16_2009"], subjectCol = "YaleID")
+Barplot(titer_list["A Perth 16 2009"])
 
 ## Bar plot of all strains
-Barplot(titer_list, subjectCol = "YaleID", groupVar = "AgeGroup")
+Barplot(titer_list, groupVar = "AgeGroup")
 
 ```
 
@@ -45,12 +45,11 @@ Bubble Charts show the relationship between baseline titer and fold change. In g
 BubbleChart(titer_list)
 
 ## Bubble Chart for B strain
-BubbleChart(titer_list["A_Perth_16_2009"])
+BubbleChart(titer_list["A Perth 16 2009"])
 
 ## Add an exponential fit and color by age group
-BubbleChart(titer_list["A_Perth_16_2009"], fit = "exp",
-            subjectCol = "YaleID", colorBy = "AgeGroup",
-            eqSize = 5)
+BubbleChart(titer_list["A Perth 16 2009"], fit = "exp",
+            colorBy = "AgeGroup", eqSize = 5)
 
 ```
 

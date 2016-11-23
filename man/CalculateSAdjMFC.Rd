@@ -4,14 +4,14 @@
 \alias{CalculateSAdjMFC}
 \title{Calculate SAdjMFC}
 \usage{
-CalculateSAdjMFC(datList, subjectCol = "SubjectID", method = c("lm", "exp"),
-  yMinZero = FALSE, scoreFun = max, fcCol = "fc", d0Col = "d0",
-  normalize = TRUE, discretize = c(0.2, 0.3), scaleResiduals = FALSE,
+CalculateSAdjMFC(dat_list, subjectCol = "SubjectID", method = c("exp",
+  "lm"), yMinZero = FALSE, scoreFun = max, discretize = c(0.2, 0.3),
+  normalize = TRUE, scaleResiduals = FALSE,
   responseLabels = paste0(c("low", "moderate", "high"), "Responder"),
   na_action = "na.fail", ...)
 }
 \arguments{
-\item{datList}{a list with one data frame for each strain and each data frame containing the columns \code{fcCol} and \code{d0Col}. The order of each data frame must be the same and they must be the same dimensions. In addition, each data frame must be sorted by \code{d0Col} from low to high.}
+\item{dat_list}{a named list like the one returned by \code{\link{FormatTiters}}.}
 
 \item{subjectCol}{the name of the column specifying a subject ID. Default is "SubjectID".}
 
@@ -21,13 +21,9 @@ CalculateSAdjMFC(datList, subjectCol = "SubjectID", method = c("lm", "exp"),
 
 \item{scoreFun}{a function applied to all (potentially scaled) residuals for each subject to determine the endpoint. Default is \code{max} but \code{sum} may also be useful to quantify the total response.}
 
-\item{fcCol}{character string specifying the name of the fold change column in each element of \code{datList}}
-
-\item{d0Col}{character string specifying the name of the day 0 column in each element of \code{datList}}
+\item{discretize}{a vector of quantiles in (0, 0.5] specifying where to make the cutoff for low, moderate and high responses. Default is 20\% and 30\%.}
 
 \item{normalize}{Logical specifying whether residuals should be normalized with the inverse normal transform. Default is \code{TRUE}.}
-
-\item{discretize}{a vector of quantiles in (0, 0.5] specifying where to make the cutoff for low, moderate and high responses. Default is 20\% and 30\%.}
 
 \item{scaleResiduals}{Logical. Should residuals be scaled inversely by the
 square of the confidence intervals from the linear model.}
@@ -40,9 +36,11 @@ square of the confidence intervals from the linear model.}
 }
 \value{
 A list with the following elements:
-        "models":         the models calculated on each strain separately (with names the same as on \code{datList})
-        "residualMatrix": the matrix of residuals
-        "SAdjMFC":        a list containing the continuous and discrete SAdjMFC metrics
+\describe{
+  \item{models}{the models calculated on each strain separately (with names the same as on \code{dat_list})}
+  \item{residualMatrix}{the matrix of residuals}
+  \item{SAdjMFC}{a list containing the continuous and discrete SAdjMFC metrics}
+}
 }
 \description{
 \code{CalculateSAdjMFC} calculates the baseline-adjusted maximum fold change (MFC)
@@ -58,8 +56,18 @@ Missing (\code{NA}) values are handled by being returned as missing in the
 endpoints in the output
 }
 \examples{
-## First Example
+## Prepare the data
+titer_list <- FormatTiters(Year2_Titers)
 
+## Using a linear fit
+endpoints <- CalculateSAdjMFC(titer_list, method = "lm")
+summary(endpoints)
+## Get discrete endpoints using upper/lower 30\%
+endpoints$SAdjMFC_d30
+
+## Get endpoints with a 50\% split into high and low
+endpoints <- CalculateSAdjMFC(titer_list, method = "exp", discretize = 0.5)
+endpoints$SAdjMFC_d50
 }
 \author{
 Stefan Avey
@@ -67,5 +75,4 @@ Stefan Avey
 \seealso{
 \code{lm, nls}
 }
-\keyword{HIPC}
 

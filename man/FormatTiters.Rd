@@ -4,39 +4,32 @@
 \alias{FormatTiters}
 \title{Format antibody titers.}
 \usage{
-FormatTiters(titers, strains, subjectCol = "SubjectID",
-  otherCols = vector(mode = "character"), d0Cols = paste0("d0_", strains),
-  fcCols = paste0("fc_", strains), fcMinZero = TRUE, log2Transform = TRUE)
+FormatTiters(titers, log2Transform = TRUE, fcMinZero = TRUE)
 }
 \arguments{
-\item{titers}{a data frame containing the titer information}
-
-\item{strains}{the names of the virus strains}
-
-\item{subjectCol}{the name of the column specifying a subject ID. Default is "SubjectID".}
-
-\item{otherCols}{a character vector specifying which additional columns of titers to retain. (Defaults to an empty character vector).}
-
-\item{d0Cols}{the column names of day 0 (baseline) columns}
-
-\item{fcCols}{the column names of fold change columns}
-
-\item{fcMinZero}{should negative fold changes be set to 0? Default is \code{TRUE}}
+\item{titers}{a data frame containing one row per subject per strain. The following columns are required:
+\describe{
+  \item{SubjectID}{Subject IDs (column name can vary)}
+  \item{Strain}{The name of the viral strain for the observation}
+  \item{Pre}{The pre-vaccination (or pre-infection) titer}
+  \item{Post}{The post-vaccination (or post-infection) titer}
+  \item{...}{Other columns which will be preserved}
+}}
 
 \item{log2Transform}{logical specifying whether titer values should be log2 transformed}
+
+\item{fcMinZero}{should negative fold changes be set to 0? Default is \code{TRUE}}
 }
 \value{
-a list of data frames with one data frame per viral strain containing the baseline ("d0"), fold change ("fc") and any other columns specified by the \code{otherColumns} argument.
+a list of data frames with one data frame per viral strain containing the "Pre" and "Post" titer measurements (row names are removed).
 }
 \description{
 \code{FormatTiters} formats titers into a list with one tidy data frame per viral strain
 }
 \examples{
-strains <- c("A_California_7_2009", "A_Perth_16_2009", "B_Brisbane_60_2008")
-titer_list <- FormatTiters(Year1_Titers, strains, subjectCol = "YaleID")
+titer_list <- FormatTiters(Year1_Titers, log2Transform = TRUE, fcMinZero = TRUE)
 }
 \author{
 Stefan Avey
 }
-\keyword{HIPC}
 

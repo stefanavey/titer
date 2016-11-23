@@ -4,50 +4,49 @@
 #'
 #'
 #'
-#' @param titers a data frame containing the titer information
-#' @param strains the names of the virus strains
-#' @param subjectCol the name of the column specifying a subject ID. Default is "SubjectID". 
-#' @param otherCols a character vector specifying which additional columns of titers to retain. (Defaults to an empty character vector).
-#' @param d0Cols the column names of day 0 (baseline) columns 
-#' @param fcCols the column names of fold change columns 
-#' @param fcMinZero should negative fold changes be set to 0? Default is \code{TRUE}
+#' @param titers a data frame containing one row per subject per strain. The following columns are required:
+#' \describe{
+#'   \item{SubjectID}{Subject IDs (column name can vary)}
+#'   \item{Strain}{The name of the viral strain for the observation}
+#'   \item{Pre}{The pre-vaccination (or pre-infection) titer}
+#'   \item{Post}{The post-vaccination (or post-infection) titer}
+#'   \item{...}{Other columns which will be preserved}
+#' }
 #' @param log2Transform logical specifying whether titer values should be log2 transformed
-#' @return a list of data frames with one data frame per viral strain containing the baseline ("d0"), fold change ("fc") and any other columns specified by the \code{otherColumns} argument.
-#' 
+#' @param fcMinZero should negative fold changes be set to 0? Default is \code{TRUE}
+#'
+#' @return a list of data frames with one data frame per viral strain containing the "Pre" and "Post" titer measurements (row names are removed).
 #' 
 #' @author Stefan Avey
-#' @keywords HIPC
+#' @import dplyr
 #' @export
 #' @examples
-#' strains <- c("A_California_7_2009", "A_Perth_16_2009", "B_Brisbane_60_2008")
-#' titer_list <- FormatTiters(Year1_Titers, strains, subjectCol = "YaleID")
-FormatTiters <- function(titers, strains,
-                         subjectCol = "SubjectID",
-                         otherCols = vector(mode = "character"),
-                         d0Cols = paste0("d0_", strains),
-                         fcCols = paste0("fc_", strains),
-                         fcMinZero = TRUE, log2Transform = TRUE)
+#' titer_list <- FormatTiters(Year1_Titers, log2Transform = TRUE, fcMinZero = TRUE)
+FormatTiters <- function(titers, log2Transform = TRUE, fcMinZero = TRUE)
 {
   if(log2Transform) {
+    message("- Log transforming Pre and Post columns")
     trans <- log2
   } else {
       trans <- identity
     }
+  if(fcMinZero) {
+    message("- Setting any negative log fold changes to 0")
+  }
   titer_list <- list()
+  strains <- sort(unique(titers$Strain))
   for(i in seq_along(strains)) {
-    titers$d0 <- trans(titers[[d0Cols[i]]])
-    titers$fc <- trans(titers[[fcCols[i]]])
+    result <- titers %>%
+      dplyr::filter(Strain == strains[i]) %>%
+      dplyr::mutate(Post = trans(Post), Pre = trans(Pre)) %>%
+      dplyr::mutate(FC = Post - Pre) %>%
+      dplyr::arrange(Pre, FC) %>%
+      distinct()
     if(fcMinZero) {
-      titers$fc <- pmax(0, titers$fc)
+      result <- result %>% dplyr::mutate(FC = pmax(FC, 0))
     }
-    selCols <- c(subjectCol, otherCols, "d0", "fc")
-    result <- titers[,selCols]
-    result <- result[!duplicated(result),]
-    ord <- order(result$d0, result$fc)
-    result <- result[ord,]
-    rownames(result) <- NULL
+    rownames(result) <- NULL    # remove rownames which may cause problems later
     titer_list[[strains[i]]] <- result
   }
   return(titer_list)
 }
-
