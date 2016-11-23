@@ -12,10 +12,6 @@ GetEqn(m)
 \description{
 \code{GetEqn} gets the equation for various models in a human readable format
 }
-\examples{
-## First Example
-
-}
 \author{
 Stefan Avey
 }
