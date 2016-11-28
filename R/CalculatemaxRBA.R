@@ -1,7 +1,6 @@
-#' Calculate SAdjMFC
+#' Calculate maxRBA
 #'
-#' \code{CalculateSAdjMFC} calculates the baseline-adjusted maximum fold change (MFC)
-#' for each viral strain
+#' \code{CalculatemaxRBA} calculates the maximum residual after baseline-adjustment for each viral strain
 #' 
 #' Calculates the baseline-adjusted fold change for each strain of virus
 #' using (unnormalized) fold change and baseline titers. Linear regression or
@@ -28,7 +27,7 @@
 #' \describe{
 #'   \item{models}{the models calculated on each strain separately (with names the same as on \code{dat_list})}
 #'   \item{residualMatrix}{the matrix of residuals}
-#'   \item{SAdjMFC}{a list containing the continuous and discrete SAdjMFC metrics}
+#'   \item{maxRBA}{a list containing the continuous and discrete maxRBA metrics}
 #' }
 #' @seealso \code{lm, nls}
 #' @author Stefan Avey
@@ -38,15 +37,15 @@
 #' titer_list <- FormatTiters(Year2_Titers)
 #'
 #' ## Using a linear fit
-#' endpoints <- CalculateSAdjMFC(titer_list, method = "lm")
+#' endpoints <- CalculatemaxRBA(titer_list, method = "lm")
 #' summary(endpoints)
 #' ## Get discrete endpoints using upper/lower 30%
-#' endpoints$SAdjMFC_d30
+#' endpoints$maxRBA_d30
 #'
 #' ## Get endpoints with a 50% split into high and low
-#' endpoints <- CalculateSAdjMFC(titer_list, method = "exp", discretize = 0.5)
-#' endpoints$SAdjMFC_d50
-CalculateSAdjMFC <- function(dat_list, subjectCol = "SubjectID",
+#' endpoints <- CalculatemaxRBA(titer_list, method = "exp", discretize = 0.5)
+#' endpoints$maxRBA_d50
+CalculatemaxRBA <- function(dat_list, subjectCol = "SubjectID",
                              method = c("exp", "lm"), yMinZero = FALSE,
                              scoreFun = max, discretize = c(0.2, 0.3),
                              normalize = TRUE, scaleResiduals = FALSE,
@@ -114,24 +113,24 @@ CalculateSAdjMFC <- function(dat_list, subjectCol = "SubjectID",
   if(normalize) {
     residual_mat <- apply(residual_mat, 2, .INT)
   }
-  SAdjMFC <- apply(residual_mat, 1, scoreFun, na.rm = TRUE)
+  maxRBA <- apply(residual_mat, 1, scoreFun, na.rm = TRUE)
   ## Calculated discretized metrics
   disList <- vector(mode = "list", length = length(discretize))
   names(disList) <- discretize
   for(dis in discretize) {
     tmp <- rep(NA, nrow(dat))
-    names(tmp) <- names(SAdjMFC)
-    lowR <- SAdjMFC <= quantile(SAdjMFC, dis, na.rm = TRUE)
-    highR <- SAdjMFC >= quantile(SAdjMFC, 1 - dis, na.rm = TRUE)
-    modR <- !(lowR | highR | is.na(SAdjMFC))
+    names(tmp) <- names(maxRBA)
+    lowR <- maxRBA <= quantile(maxRBA, dis, na.rm = TRUE)
+    highR <- maxRBA >= quantile(maxRBA, 1 - dis, na.rm = TRUE)
+    modR <- !(lowR | highR | is.na(maxRBA))
     tmp[lowR] <- 0
     tmp[modR] <- 1
     tmp[highR] <- 2
     disList[[as.character(dis)]] <- factor(tmp, labels = responseLabels, levels = 0:2)
   }
-  disList <- setNames(disList, paste0("SAdjMFC_d",
+  disList <- setNames(disList, paste0("maxRBA_d",
                                       as.character(as.numeric(names(disList))*100)))
   names(model_list) <- names(dat_list)
   return(c(models = list(model_list), residualMatrix = list(residual_mat),
-           SAdjMFC = list(SAdjMFC), disList))
+           maxRBA = list(maxRBA), disList))
 }

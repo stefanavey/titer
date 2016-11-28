@@ -16,7 +16,7 @@
 #' @param ybreaks the y-axis breaks (passed to \code{scale_y_continuous})
 #' @param plot logical indicating whether to plot or not. Default is TRUE
 #' @param cols numeric specifying how many columns to layout plot
-#' @param ... other arguments besides \code{method} and \code{subjectCol} passed to \code{\link{CalculateSAdjMFC}}.
+#' @param ... other arguments besides \code{method} and \code{subjectCol} passed to \code{\link{CalculatemaxRBA}}.
 #' @return (invisibly) a list of ggplot2 objects.
 #' 
 #' @import grid ggplot2
@@ -80,7 +80,7 @@ BubbleChart <- function(dat_list, subjectCol = "SubjectID",
       theme(axis.text.x = element_text(angle = 45, hjust = 1))
     if (!is.null(fit)) {
       ## Fit models and save endpoints
-      endpoints <- CalculateSAdjMFC(dat_list, subjectCol = subjectCol,
+      endpoints <- CalculatemaxRBA(dat_list, subjectCol = subjectCol,
                                     method = fit, yMinZero = yMinZero,  ...)
       mod <- endpoints$models[[strain]]
       ## Plot the exponential curve or linear fit
@@ -120,7 +120,7 @@ BubbleChart <- function(dat_list, subjectCol = "SubjectID",
         gg <- gg + geom_count(data = plotDat, mapping = aes_string(color = colorBy),
                               position = position_jitter(width = 0.2, height = 0.2))
       } else {
-          stop("`colorBy` must be the name of a column in dat_list or a valid endpoint name from CalculateSAdjMFC()")
+          stop("`colorBy` must be the name of a column in dat_list or a valid endpoint name from CalculatemaxRBA()")
         }
     } else {
         gg <- gg + geom_count()

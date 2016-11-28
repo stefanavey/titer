@@ -34,7 +34,7 @@ BubbleChart(dat_list, subjectCol = "SubjectID", fit = NULL,
 
 \item{cols}{numeric specifying how many columns to layout plot}
 
-\item{...}{other arguments besides \code{method} and \code{subjectCol} passed to \code{\link{CalculateSAdjMFC}}.}
+\item{...}{other arguments besides \code{method} and \code{subjectCol} passed to \code{\link{CalculatemaxRBA}}.}
 }
 \value{
 (invisibly) a list of ggplot2 objects.
