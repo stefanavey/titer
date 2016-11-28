@@ -73,7 +73,6 @@ CalculatemaxRBA <- function(dat_list, subjectCol = "SubjectID",
   ## Calculate residual for each strain
   for(i in seq_along(dat_list)) {
     dat <- dat_list[[i]]
-    rownames(dat) <- NULL               # most rownames will break this code
     ## Check if arranged in order of Pre column
     ord <- order(dat$Pre)
     if(!all(ord == 1:nrow(dat))) {
