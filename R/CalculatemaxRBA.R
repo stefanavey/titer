@@ -15,7 +15,7 @@
 #' @param method a character string specifying the method used to model the relationship between day 0 and fold change values. One of either "lm" for a linear model or "exp" for an exponential model.
 #' @param yMinZero a logical specifying whether fitted y values below 0 should be set to 0.
 #' @param scoreFun a function applied to all (potentially scaled) residuals for each subject to determine the endpoint. Default is \code{max} but \code{sum} may also be useful to quantify the total response.
-#' @param normalize Logical specifying whether residuals should be normalized with the inverse normal transform. Default is \code{TRUE}.
+#' @param normalize Logical specifying whether residuals should be normalized with the inverse normal transform. Default is \code{FALSE}.
 #' @param discretize a vector of quantiles in (0, 0.5] specifying where to make the cutoff for low, moderate and high responses. Default is 20\% and 30\%.
 #' @param scaleResiduals Logical. Should residuals be scaled inversely by the
 #'                       square of the confidence intervals from the linear model.
@@ -48,7 +48,7 @@
 CalculatemaxRBA <- function(dat_list, subjectCol = "SubjectID",
                              method = c("exp", "lm"), yMinZero = FALSE,
                              scoreFun = max, discretize = c(0.2, 0.3),
-                             normalize = TRUE, scaleResiduals = FALSE,
+                             normalize = FALSE, scaleResiduals = FALSE,
                              responseLabels = paste0(c("low", "moderate", "high"),
                                  "Responder"), na_action = "na.fail",
                              ...) {

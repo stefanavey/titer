@@ -1,12 +1,10 @@
 #' Calculate whoResp
 #'
-#' \code{CalculatewhoResp} calculates the maximum residual after baseline-adjustment for each viral strain
+#' \code{CalculatewhoResp} calculates a response definition similar to the WHO defintion using a 4-fold cutoff.
 #' 
-#' Calculates the baseline-adjusted fold change for each strain of virus
-#' using (unnormalized) fold change and baseline titers. Linear regression or
-#' an exponential curve is used to remove the effect of baseline titers on fold changes.
-#' The score function (\code{scoreFun}) is used to combine the adjusted fold change across
-#' multiple strains.
+#' Subjects are responders ("R") if they acheive a 4-fold or greater fold change in
+#' titer to at least 2 strains, nonresponders ("NR") if they do not acheive a 4-fold
+#' or greater fold change in titer to any strain, and intermediate ("X") otherwise.
 #' Missing (\code{NA}) values are handled by being returned as missing in the
 #' endpoints in the output
 #'

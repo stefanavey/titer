@@ -6,7 +6,7 @@
 \usage{
 CalculatemaxRBA(dat_list, subjectCol = "SubjectID", method = c("exp", "lm"),
   yMinZero = FALSE, scoreFun = max, discretize = c(0.2, 0.3),
-  normalize = TRUE, scaleResiduals = FALSE,
+  normalize = FALSE, scaleResiduals = FALSE,
   responseLabels = paste0(c("low", "moderate", "high"), "Responder"),
   na_action = "na.fail", ...)
 }
@@ -23,7 +23,7 @@ CalculatemaxRBA(dat_list, subjectCol = "SubjectID", method = c("exp", "lm"),
 
 \item{discretize}{a vector of quantiles in (0, 0.5] specifying where to make the cutoff for low, moderate and high responses. Default is 20\% and 30\%.}
 
-\item{normalize}{Logical specifying whether residuals should be normalized with the inverse normal transform. Default is \code{TRUE}.}
+\item{normalize}{Logical specifying whether residuals should be normalized with the inverse normal transform. Default is \code{FALSE}.}
 
 \item{scaleResiduals}{Logical. Should residuals be scaled inversely by the
 square of the confidence intervals from the linear model.}
