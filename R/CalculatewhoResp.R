@@ -19,7 +19,6 @@
 #'
 #' CalculatewhoResp(titer_list)
 CalculatewhoResp <- function(dat_list, subjectCol = "SubjectID") {
-
   fourFC <- data.frame(matrix(nrow = nrow(dat_list[[1]]),
                               ncol = length(dat_list),
                               dimnames = list(NULL, names(dat_list))),

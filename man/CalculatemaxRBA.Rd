@@ -39,7 +39,8 @@ A list with the following elements:
 \describe{
   \item{models}{the models calculated on each strain separately (with names the same as on \code{dat_list})}
   \item{residualMatrix}{the matrix of residuals}
-  \item{maxRBA}{a list containing the continuous and discrete maxRBA metrics}
+  \item{maxRBA_d<X>}{a named vector containing the discrete maxRBA endpoint with a cutoff at <X>}
+  \item{...}{Other named vectors containing discrete maxRBA endpoints}
 }
 }
 \description{
