@@ -8,7 +8,6 @@
 #' @param subjectCol the name of the column specifying a subject ID. Default is "SubjectID".
 #' @param discretize a vector of quantiles in (0, 0.5] specifying where to make the cutoff for low, moderate and high responses. Default is 20\% and 30\%.
 #' @param responseLabels names for low, moderate and high responses 
-#' @param "Responder") 
 #' @return A list with the following elements:
 #' \describe{
 #'   \item{MFC}{a named vector containing the continuous MFC endpoints}
@@ -18,6 +17,7 @@
 #' @return A named vector containing the MFC for each subject
 #' @author Stefan Avey
 #' @import dplyr
+#' @importFrom stats quantile setNames
 #' @export
 #' @examples
 #' ## Prepare the data

@@ -20,6 +20,8 @@
 #' @return (invisibly) a list of ggplot2 objects.
 #' 
 #' @import grid ggplot2
+#' @importFrom stats na.omit coef quantile
+#' 
 #' @author Stefan Avey
 #' @keywords HIPC
 #' @seealso \code{FormatTiters}

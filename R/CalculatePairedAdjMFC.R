@@ -21,9 +21,10 @@
 #' @return          A data frame like \code{dat} but with standarized columns added
 #'
 #' @import dplyr
+#' @importFrom stats median sd setNames
 #' 
 #' @author Stefan Avey
-#' @references Tsang JS, et al. (2014) Global analyses of human immune variation reveal baseline predictors of postvaccination responses. Cell 157(2):499–513.
+#' @references Tsang JS, et al. (2014) Global analyses of human immune variation reveal baseline predictors of postvaccination responses. Cell 157(2):499-513.
 #' @export
 #' @examples
 #' ## First Example
@@ -121,6 +122,7 @@ CalculateD0NormPaired <- function(dat,
 #' @seealso \code{lm}
 #' 
 #' @author Stefan Avey
+#' @importFrom stats as.formula lm quantile setNames predict
 #' @export
 #' @examples
 #' ## First Example
@@ -140,9 +142,9 @@ CalculatePadjMFC <- function(dat, fcCol = "fc_norm_max_ivt", d0Col = "d0_norm_pa
   model <- lm(data = dat, formula = form, na.action = "na.omit", ...)
   padjMFC <- rep(NA, nrow(dat))
   if(scaleResiduals) {
-    cis <- stats::predict(model, na.action = "na.omit",
-                          newdata = dat, se.fit = FALSE,
-                          level = 0.95, interval = "confidence")
+    cis <- predict(model, na.action = "na.omit",
+                   newdata = dat, se.fit = FALSE,
+                   level = 0.95, interval = "confidence")
     intervals <- apply(cis, 1, function(row) { return(row["upr"] - row["lwr"]) })
     padjMFC[as.numeric(names(model$residuals))] <- model$residuals / intervals^2    
   } else {

@@ -63,6 +63,7 @@ Multiplot <- function(..., plotlist=NULL, cols=1, layout=NULL) {
 #' 
 #' @references original lm_eqn and inspiration from this SO post \url{http://stackoverflow.com/questions/7549694/ggplot2-adding-regression-line-equation-and-r2-on-graph}.
 #' @author Stefan Avey
+#' @importFrom stats coef deviance
 #' @keywords aveytoolkit
 GetEqn <- function(m)
 {
@@ -107,6 +108,9 @@ GetEqn <- function(m)
 #'
 #' \code{+.uneval} is a helper function to allow adding aes and aes_string in ggplot2
 #'
+#'
+#' @param a first argument
+#' @param b second argument
 #' 
 #' @references \url{http://stackoverflow.com/questions/28777626/how-do-i-combine-aes-and-aes-string-options}
 `+.uneval` <- function(a,b) {

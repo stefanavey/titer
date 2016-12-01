@@ -6,6 +6,11 @@
 \usage{
 \method{+}{uneval}(a, b)
 }
+\arguments{
+\item{a}{first argument}
+
+\item{b}{second argument}
+}
 \description{
 \code{+.uneval} is a helper function to allow adding aes and aes_string in ggplot2
 }

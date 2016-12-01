@@ -15,8 +15,6 @@ CalculateMFC(dat_list, subjectCol = "SubjectID", discretize = c(0.2, 0.3),
 \item{discretize}{a vector of quantiles in (0, 0.5] specifying where to make the cutoff for low, moderate and high responses. Default is 20\% and 30\%.}
 
 \item{responseLabels}{names for low, moderate and high responses}
-
-\item{"Responder")}{}
 }
 \value{
 A list with the following elements:

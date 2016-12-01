@@ -19,7 +19,7 @@ Year2_Titers
 Antibody titers to 3 strains of influenza in a cohort of young and older adults from Yale during the 2011-2012 flu season.
 }
 \references{
-Thakar J, et al. (2015) Aging-dependent alterations in gene expression and a mitochondrial signature of responsiveness to human influenza vaccination. Aging (Albany NY) 7(1):38–52. \url{https://www.ncbi.nlm.nih.gov/pubmed/25596819}
+Thakar J, et al. (2015) Aging-dependent alterations in gene expression and a mitochondrial signature of responsiveness to human influenza vaccination. Aging (Albany NY) 7(1):38-52. \url{https://www.ncbi.nlm.nih.gov/pubmed/25596819}
 }
 \keyword{datasets}
 

@@ -12,6 +12,8 @@
 #' @return (invisibly) a list of ggplot2 object(s).
 #'
 #' @import grid ggplot2 dplyr tidyr
+#' @importFrom stats as.formula
+#' 
 #' @author Stefan Avey
 #' @export
 #' @examples

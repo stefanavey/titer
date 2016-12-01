@@ -32,6 +32,7 @@
 #' }
 #' @seealso \code{lm, nls}
 #' @author Stefan Avey
+#' @importFrom stats qnorm lm nls fitted quantile setNames
 #' @export
 #' @examples
 #' ## Prepare the data
