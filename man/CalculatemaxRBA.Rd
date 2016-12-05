@@ -34,15 +34,6 @@ square of the confidence intervals from the linear model.}
 
 \item{...}{Additional arguments passed to \code{lm} if method == "lm" or \code{nls} if method == "exp"}
 }
-\value{
-A list with the following elements:
-\describe{
-  \item{models}{the models calculated on each strain separately (with names the same as on \code{dat_list})}
-  \item{residualMatrix}{the matrix of residuals}
-  \item{maxRBA_d<X>}{a named vector containing the discrete maxRBA endpoint with a cutoff at <X>}
-  \item{...}{Other named vectors containing discrete maxRBA endpoints}
-}
-}
 \description{
 \code{CalculatemaxRBA} calculates the maximum residual after baseline-adjustment for each viral strain
 }
