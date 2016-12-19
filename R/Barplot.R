@@ -41,7 +41,7 @@ Barplot <- function(dat_list, subjectCol = "SubjectID", cols = 1,
   plotList <- list()
   ## Convert list to data frame
   dat_df <- do.call(rbind.data.frame, dat_list) %>%
-    gather("Condition", "titer", matches("(Pre)|(Post)|(FC)"))
+    gather("Condition", "titer", matches("^(Pre)|(Post)|(FC)$"))
   ## Determine which subjects/strains had a fold change of at least 4
   fcDat <- dat_df %>%
     filter(Condition == "FC") %>%
