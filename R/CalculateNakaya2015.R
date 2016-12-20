@@ -54,6 +54,6 @@ CalculateNakaya2015 <- function(dat_list, subjectCol = "SubjectID",
   ## Rename columns to use user-supplied subjectID
   colnames(result) <- gsub("^subject$", subjectCol, colnames(result))
   nakaya2015 <- result$Response
-  names(nakaya2015) <- result$subject
-  return(c(data = result, Nakaya2015 = list(nakaya2015)))
+  names(nakaya2015) <- result[[subjectCol]]
+  return(list(data = result, Nakaya2015 = nakaya2015))
 }
