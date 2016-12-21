@@ -12,7 +12,7 @@ CalculatewhoResp(dat_list, subjectCol = "SubjectID")
 \item{subjectCol}{the name of the column specifying a subject ID. Default is "SubjectID".}
 }
 \value{
-A named vector containing the response ("NR", "X", or "R") for each subject
+A named list with 1 element named "whoResp" containing the response ("NR", "X", or "R").
 }
 \description{
 \code{CalculatewhoResp} calculates a response definition similar to the WHO defintion using a 4-fold cutoff.

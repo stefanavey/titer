@@ -24,7 +24,7 @@ A list with the following elements:
   \item{...}{Other named vectors containing discrete MFC endpoints}
 }
 
-A named vector containing the MFC for each subject
+A named list containing the MFC for each subject and any discretized metrics
 }
 \description{
 \code{CalculateMFC} calculates the (log-transformed) maximum fold change over all strains.
