@@ -27,7 +27,7 @@ CalculatewhoResp <- function(dat_list, subjectCol = "SubjectID") {
   if(length(unique(lapply(dat_list, dim))) != 1) {
     stop("Each data frame in `dat_list` must have the same dimensions")
   }
-  result <- dat %>%
+  result <- do.call(rbind.data.frame, dat_list) %>%
     mutate(fourFC = FC >= 2) %>%
     group_by_(subjectCol) %>%
     summarize(numFourFC = sum(fourFC)) %>%
