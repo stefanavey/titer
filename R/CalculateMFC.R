@@ -14,7 +14,7 @@
 #'   \item{MFC_d<X>}{a named vector containing the discrete MFC endpoint with a cutoff at <X>}
 #'   \item{...}{Other named vectors containing discrete MFC endpoints}
 #' }
-#' @return A named vector containing the MFC for each subject
+#' @return A named list containing the MFC for each subject and any discretized metrics
 #' @author Stefan Avey
 #' @import dplyr
 #' @importFrom stats quantile setNames

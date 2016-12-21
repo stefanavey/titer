@@ -10,8 +10,9 @@
 #'
 #' @param dat_list a named list like the one returned by \code{\link{FormatTiters}}.
 #' @param subjectCol the name of the column specifying a subject ID. Default is "SubjectID".
-#' @return A named vector containing the response ("NR", "X", or "R") for each subject
+#' @return A named list with 1 element named "whoResp" containing the response ("NR", "X", or "R").
 #' @author Stefan Avey
+#' @import dplyr
 #' @export
 #' @examples
 #' ## Prepare the data
@@ -23,18 +24,21 @@ CalculatewhoResp <- function(dat_list, subjectCol = "SubjectID") {
                               ncol = length(dat_list),
                               dimnames = list(NULL, names(dat_list))),
                        check.names = FALSE)
-  for(i in seq_along(dat_list)) {
-    dat <- dat_list[[i]]
-    fourFC[, i] <- dat$FC >= 2
+  if(length(unique(lapply(dat_list, dim))) != 1) {
+    stop("Each data frame in `dat_list` must have the same dimensions")
   }
-  counts <- apply(fourFC, 1, sum)
-  R <- counts >= 2
-  NR <- counts == 0
-  response <- rep("X", length(counts))
-  missing <- apply(fourFC, 1, function(row) any(is.na(row)))
-  response[missing] <- NA
-  response[which(R)] <- "R"
-  response[which(NR)] <- "NR"
-  names(response) <- dat[[subjectCol]]
-  return(response)
+  result <- dat %>%
+    mutate(fourFC = FC >= 2) %>%
+    group_by_(subjectCol) %>%
+    summarize(numFourFC = sum(fourFC)) %>%
+    ungroup() %>%
+    mutate(whoResp = NA) %>%
+    mutate(whoResp = ifelse(numFourFC >= 2, "R", whoResp)) %>%
+    mutate(whoResp = ifelse(numFourFC == 1, "X", whoResp)) %>%    
+    mutate(whoResp = ifelse(numFourFC == 0, "NR", whoResp))
+  whoResp <- result %>%
+    select(whoResp) %>%
+    unlist()
+  names(whoResp) <- result[[subjectCol]]
+  return(list(whoResp = whoResp))
 }
