@@ -1,6 +1,6 @@
 #' Calculate Nakaya2015
 #'
-#' \code{CalculateNakaya2015} calculates the endpoint used in Nakaya et al. 2015
+#' \code{Calculate_Nakaya2015} calculates the endpoint used in Nakaya et al. 2015
 #' 
 #' First calculate the maximum fold change (MFC) derived titer metric described
 #' in Nakaya et al. 2015. Then check whether both of these conditions are satisfied:
@@ -32,9 +32,9 @@
 #' titer_list <- FormatTiters(Year2_Titers)
 #'
 #' ## Calculate the endpoint
-#' endpoints <- CalculateNakaya2015(titer_list)
+#' endpoints <- Calculate_Nakaya2015(titer_list)
 #' summary(endpoints)
-CalculateNakaya2015 <- function(dat_list, subjectCol = "SubjectID",
+Calculate_Nakaya2015 <- function(dat_list, subjectCol = "SubjectID",
                                 responseLabels = paste0(c("low", "high"),
                                     "Responder"), na_action = "na.fail", ...) {
   if(length(unique(lapply(dat_list, dim))) != 1) {

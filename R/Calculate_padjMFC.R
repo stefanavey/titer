@@ -1,9 +1,9 @@
 #################################################################################
-## CalculateStdNorm                                                            ##
+## Calculate_StdNorm                                                            ##
 #################################################################################
 #' Calculate Normalized Titers
 #'
-#' \code{CalculateStdNorm} calculates the standardized d0 or fc titers
+#' \code{Calculate_StdNorm} calculates the standardized d0 or fc titers
 #'
 #' This must be run on only 1 cohort at a time because titers will be normalized
 #' across all subjects. The median is used but unlike the original reference,
@@ -29,7 +29,7 @@
 #' @examples
 #' ## First Example
 #' 
-CalculateStdNorm <- function(dat, type, fcToOne = FALSE, idCol = "SubjectID",
+Calculate_StdNorm <- function(dat, type, fcToOne = FALSE, idCol = "SubjectID",
                              cols = grep(paste0(type, "_[AB]"),
                                  colnames(dat), value = TRUE)) {
   ## Functions for calculating the std values
@@ -54,11 +54,11 @@ CalculateStdNorm <- function(dat, type, fcToOne = FALSE, idCol = "SubjectID",
 }
 
 #################################################################################
-## CalculateD0NormPaired                                                       ##
+## Calculate_D0NormPaired                                                       ##
 #################################################################################
-#' CalculateD0NormPaired
+#' Calculate_D0NormPaired
 #'
-#' \code{CalculateD0NormPaired} calculates the normalized day 0 titer paired with the titer with maximum normalized fold change 
+#' \code{Calculate_D0NormPaired} calculates the normalized day 0 titer paired with the titer with maximum normalized fold change 
 #'
 #' If there are multiple strains that have the maximal fold change,
 #' choose the day 0 titer that is higher since this will allow
@@ -78,7 +78,7 @@ CalculateStdNorm <- function(dat, type, fcToOne = FALSE, idCol = "SubjectID",
 #' @examples
 #' ## First Example
 #' 
-CalculateD0NormPaired <- function(dat,
+Calculate_D0NormPaired <- function(dat,
                                   fcStdCols = grep("fc_std_norm",
                                       colnames(dat), value = TRUE)) {
   maxStrains <- apply(dat[,fcStdCols], 1, max)
@@ -99,9 +99,9 @@ CalculateD0NormPaired <- function(dat,
 #################################################################################
 ## CalculatePadjMFC                                                            ##
 #################################################################################
-#' CalculatePadjMFC
+#' Calculate_padjMFC
 #'
-#' \code{CalculatePadjMFC} calculates the paired, adjusted maximum fold change (padjMFC)
+#' \code{Calculate_padjMFC} calculates the paired, adjusted maximum fold change (padjMFC)
 #' 
 #' Calculate the paired, adjusted maximum fold change (padjMFC) from
 #' fc_norm_max_ivt and d0_norm_paired using linear regression to
@@ -127,7 +127,7 @@ CalculateD0NormPaired <- function(dat,
 #' @examples
 #' ## First Example
 #'
-CalculatePadjMFC <- function(dat, fcCol = "fc_norm_max_ivt", d0Col = "d0_norm_paired",
+Calculate_padjMFC <- function(dat, fcCol = "fc_norm_max_ivt", d0Col = "d0_norm_paired",
                              discretize = c(0.2, 0.3), scaleResiduals = FALSE,
                              responseLabels = paste0(c("low", "moderate", "high"),
                                  "Responder"), ...) {

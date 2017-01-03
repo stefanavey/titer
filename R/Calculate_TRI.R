@@ -1,6 +1,6 @@
 #' Calculate TRI
 #'
-#' \code{CalculateTRI} calculates the Titer Response Index (TRI)
+#' \code{Calculate_TRI} calculates the Titer Response Index (TRI)
 #' 
 #' Calculates the Titer Response Index (TRI) defined in Bucasas et al. 2011
 #' Missing (\code{NA}) values are handled by being returned as missing in the
@@ -31,7 +31,7 @@
 #' titer_list <- FormatTiters(Year2_Titers)
 #'
 #' ## Calculate the titer response index (TRI)
-#' endpoints <- CalculateTRI(titer_list)
+#' endpoints <- Calculate_TRI(titer_list)
 #' summary(endpoints)
 #'
 #' ## Get discrete endpoints using upper/lower 30%
@@ -39,7 +39,7 @@
 #'
 #' ## Recreate Supp. Fig. S1
 #' pairs(endpoints$scores, col = endpoints$TRI_d30)
-CalculateTRI <- function(dat_list, subjectCol = "SubjectID", discretize = c(0.2, 0.3),
+Calculate_TRI <- function(dat_list, subjectCol = "SubjectID", discretize = c(0.2, 0.3),
                          responseLabels = paste0(c("low", "moderate", "high"),
                              "Responder"), na_action = "na.fail", ...) {
   if(length(unique(lapply(dat_list, dim))) != 1) {

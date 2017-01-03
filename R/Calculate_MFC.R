@@ -1,6 +1,6 @@
 #' Calculate MFC
 #'
-#' \code{CalculateMFC} calculates the (log-transformed) maximum fold change over all strains.
+#' \code{Calculate_MFC} calculates the (log-transformed) maximum fold change over all strains.
 #'
 #'
 #' 
@@ -23,8 +23,8 @@
 #' ## Prepare the data
 #' titer_list <- FormatTiters(Year2_Titers)
 #'
-#' CalculateMFC(titer_list)
-CalculateMFC <- function(dat_list, subjectCol = "SubjectID", discretize = c(0.2, 0.3),
+#' Calculate_MFC(titer_list)
+Calculate_MFC <- function(dat_list, subjectCol = "SubjectID", discretize = c(0.2, 0.3),
                          responseLabels = paste0(c("low", "moderate", "high"),
                              "Responder")) {
   if(length(unique(lapply(dat_list, dim))) != 1) {

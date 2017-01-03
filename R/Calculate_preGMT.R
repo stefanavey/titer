@@ -1,6 +1,6 @@
 #' Calculate pre-GMT
 #'
-#' \code{CalculatepreGMT} calculates the log-transformed pre-vaccination geometric mean titer (pre-GMT)
+#' \code{Calculate_preGMT} calculates the log-transformed pre-vaccination geometric mean titer (pre-GMT)
 #'
 #' Non-logged HAI titers for each strain are used to calculate the geometric mean and
 #' the geometric mean for each subject is subsequently log2-transformed.
@@ -15,8 +15,8 @@
 #' ## Prepare the data
 #' titer_list <- FormatTiters(Year2_Titers)
 #'
-#' CalculatepreGMT(titer_list)
-CalculatepreGMT <- function(dat_list, subjectCol = "SubjectID") {
+#' Calculate_preGMT(titer_list)
+Calculate_preGMT <- function(dat_list, subjectCol = "SubjectID") {
   .GeometricMean <- function(x, na.rm = TRUE){
     if(any(x <= 0)) {
       warning("Some values of x are not positive, only positive values will be used")

@@ -1,6 +1,6 @@
 #' Calculate maxRBA
 #'
-#' \code{CalculatemaxRBA} calculates the maximum residual after baseline-adjustment for each viral strain
+#' \code{Calculate_maxRBA} calculates the maximum residual after baseline-adjustment for each viral strain
 #' 
 #' Calculates the baseline-adjusted fold change for each strain of virus
 #' using (unnormalized) fold change and baseline titers. Linear regression or
@@ -39,15 +39,15 @@
 #' titer_list <- FormatTiters(Year2_Titers)
 #'
 #' ## Using a linear fit
-#' endpoints <- CalculatemaxRBA(titer_list, method = "lm")
+#' endpoints <- Calculate_maxRBA(titer_list, method = "lm")
 #' summary(endpoints)
 #' ## Get discrete endpoints using upper/lower 30%
 #' endpoints$maxRBA_d30
 #'
 #' ## Get endpoints with a 50% split into high and low
-#' endpoints <- CalculatemaxRBA(titer_list, method = "exp", discretize = 0.5)
+#' endpoints <- Calculate_maxRBA(titer_list, method = "exp", discretize = 0.5)
 #' endpoints$maxRBA_d50
-CalculatemaxRBA <- function(dat_list, subjectCol = "SubjectID",
+Calculate_maxRBA <- function(dat_list, subjectCol = "SubjectID",
                              method = c("exp", "lm"), yMinZero = FALSE,
                              scoreFun = max, discretize = c(0.2, 0.3),
                              normalize = FALSE, scaleResiduals = FALSE,
