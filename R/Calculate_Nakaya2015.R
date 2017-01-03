@@ -34,13 +34,13 @@
 #' ## Calculate the endpoint
 #' endpoints <- Calculate_Nakaya2015(titer_list)
 #' summary(endpoints)
-Calculate_Nakaya2015 <- function(dat_list, subjectCol = "SubjectID",
+Calculate_Ngakaya2015 <- function(dat_list, subjectCol = "SubjectID",
                                 responseLabels = paste0(c("low", "high"),
                                     "Responder"), na_action = "na.fail", ...) {
   if(length(unique(lapply(dat_list, dim))) != 1) {
     stop("Each data frame in `dat_list` must have the same dimensions")
   }
-  mfc <- CalculateMFC(dat_list, subjectCol = subjectCol, discretize = NULL)
+  mfc <- Calculate_MFC(dat_list, subjectCol = subjectCol, discretize = NULL)
   mfc_dat <- data.frame(mfc, subject = names(mfc$MFC), stringsAsFactors = FALSE)
   cond1 <- do.call(rbind.data.frame, dat_list) %>%
     mutate_at(subjectCol, as.character) %>%
