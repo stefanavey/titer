@@ -34,7 +34,7 @@
 #' ## Calculate the endpoint
 #' endpoints <- Calculate_Nakaya2015(titer_list)
 #' summary(endpoints)
-Calculate_Ngakaya2015 <- function(dat_list, subjectCol = "SubjectID",
+Calculate_Nakaya2015 <- function(dat_list, subjectCol = "SubjectID",
                                 responseLabels = paste0(c("low", "high"),
                                     "Responder"), na_action = "na.fail", ...) {
   if(length(unique(lapply(dat_list, dim))) != 1) {

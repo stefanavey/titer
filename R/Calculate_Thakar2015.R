@@ -1,6 +1,6 @@
-#' Calculate ffalts
+#' Calculate Thakar2015
 #'
-#' \code{Calculate_ffalts} calculates a response definition based on a Four Fold change to At Least Two Strains (ffalts).
+#' \code{Calculate_Thakar2015} calculates a response definition based on a Four Fold change to At Least Two Strains (Thakar2015).
 #' 
 #' Subjects are responders (default "R") if they acheive a 4-fold or greater fold change in
 #' titer to at least 2 strains, nonresponders (default "NR") if they do not acheive a 4-fold
@@ -11,7 +11,8 @@
 #' @param dat_list a named list like the one returned by \code{\link{FormatTiters}}.
 #' @param subjectCol the name of the column specifying a subject ID. Default is "SubjectID".
 #' @param responseLabels names for low, middle, and high responses 
-#' @return A named list with 1 element named "ffalts" containing the response ("NR", "X", or "R").
+#' @return A named list with 1 element named "Thakar2015" containing the response ("NR", "X", or "R").
+#' @references Thakar J, et al. (2015) Aging-dependent alterations in gene expression and a mitochondrial signature of responsiveness to human influenza vaccination. Aging (Albany NY) 7(1):38-52.
 #' @author Stefan Avey
 #' @import dplyr
 #' @export
@@ -19,8 +20,8 @@
 #' ## Prepare the data
 #' titer_list <- FormatTiters(Year2_Titers)
 #'
-#' Calculate_ffalts(titer_list)
-Calculate_ffalts <- function(dat_list, subjectCol = "SubjectID",
+#' Calculate_Thakar2015(titer_list)
+Calculate_Thakar2015 <- function(dat_list, subjectCol = "SubjectID",
                             responseLabels = c("NR", "X", "R")) {
   fourFC <- data.frame(matrix(nrow = nrow(dat_list[[1]]),
                               ncol = length(dat_list),
@@ -42,5 +43,5 @@ Calculate_ffalts <- function(dat_list, subjectCol = "SubjectID",
     select(ffalts) %>%
     unlist()
   names(ffalts) <- result[[subjectCol]]
-  return(list(ffalts = ffalts))
+  return(list(Thakar2015 = ffalts))
 }
