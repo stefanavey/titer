@@ -12,3 +12,6 @@ titer is an R package for analysis and visualization of antibody titer data.  Th
 library(devtools)
 devtools::install_github("stefanavey/titer")
 ```
+## Vignettes
+
+There is currently one available vignette on [visualizing the titer data](https://rawgit.com/stefanavey/titer/master/vignettes/visualizeTiters.html)
