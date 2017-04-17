@@ -54,8 +54,11 @@ Barplot <- function(dat_list, subjectCol = "SubjectID", cols = 1,
   lims <- c(min(plotDat$titer, na.rm = TRUE), max(plotDat$titer, na.rm = TRUE))
   ybreaks <- lims[1]:lims[2]
   if(!is.null(groupVar)) {
+    if( (!groupVar %in% colnames(plotDat)) || length(groupVar) > 1) {
+      stop("`groupVar` must be a length 1 character vector specifying a valid column name from an element of dat_list")
+    }
     if (!is.factor(plotDat[[groupVar]])) {
-      factor(plotDat[[groupVar]])
+      plotDat[[groupVar]] <- factor(plotDat[[groupVar]])
     }
     groupLevels <- levels(plotDat[[groupVar]])
     for(group in groupLevels) {
