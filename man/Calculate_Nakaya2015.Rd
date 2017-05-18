@@ -48,13 +48,12 @@ titer_list <- FormatTiters(Year2_Titers)
 endpoints <- Calculate_Nakaya2015(titer_list)
 summary(endpoints)
 }
-\author{
-Stefan Avey
-}
 \references{
 Nakaya HI, et al. (2015) Systems Analysis of Immunity to Influenza Vaccination across Multiple Years and in Diverse Populations Reveals Shared Molecular Signatures. Immunity 43(6):1186-1198.
 }
 \seealso{
 \code{CalculateMFC}
 }
-
+\author{
+Stefan Avey
+}

@@ -38,4 +38,3 @@ Calculate_MFC(titer_list)
 \author{
 Stefan Avey
 }
-

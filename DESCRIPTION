@@ -1,7 +1,7 @@
 Package: titer
 Title: Tools for analyzing and visualizing antibody titer data
 Version: 0.0.2.0021
-Authors@R: "Stefan Avey <stefan.avey@yale.edu> [aut, cre]"
+Authors@R: person("Stefan", "Avey", , "stefan.avey@yale.edu", role = c("aut", "cre"))
 Description: This package contains methods to calculate endpoints from
 	     antibody titer data and visualize titers.
 Depends:
@@ -14,7 +14,7 @@ Imports:
 BugReports: https://github.com/stefanavey/titer/issues    
 License: MIT + file LICENSE
 LazyData: true
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr

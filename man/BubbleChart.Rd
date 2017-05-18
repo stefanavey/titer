@@ -64,11 +64,10 @@ BubbleChart(titer_list, fit = "exp")
 ## Add coloring by age
 BubbleChart(titer_list, fit = "exp", colorBy = "AgeGroup")
 }
-\author{
-Stefan Avey
-}
 \seealso{
 \code{FormatTiters}
 }
+\author{
+Stefan Avey
+}
 \keyword{HIPC}
-

@@ -42,4 +42,3 @@ Barplot(titer_list, groupVar = "AgeGroup")
 \author{
 Stefan Avey
 }
-

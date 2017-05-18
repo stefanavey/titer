@@ -12,11 +12,10 @@ GetEqn(m)
 \description{
 \code{GetEqn} gets the equation for various models in a human readable format
 }
-\author{
-Stefan Avey
-}
 \references{
 original lm_eqn and inspiration from this SO post \url{http://stackoverflow.com/questions/7549694/ggplot2-adding-regression-line-equation-and-r2-on-graph}.
 }
+\author{
+Stefan Avey
+}
 \keyword{aveytoolkit}
-

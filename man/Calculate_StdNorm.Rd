@@ -37,10 +37,9 @@ the standard deviation is calculated rather than the maximum absolute deviation.
 ## First Example
 
 }
-\author{
-Stefan Avey
-}
 \references{
 Tsang JS, et al. (2014) Global analyses of human immune variation reveal baseline predictors of postvaccination responses. Cell 157(2):499-513.
 }
-
+\author{
+Stefan Avey
+}

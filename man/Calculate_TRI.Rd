@@ -43,13 +43,12 @@ endpoints$TRI_d30
 ## Recreate Supp. Fig. S1
 pairs(endpoints$scores, col = endpoints$TRI_d30)
 }
-\author{
-Stefan Avey
-}
 \references{
 Bucasas KL, et al. (2011) Early patterns of gene expression correlate with the humoral immune response to influenza vaccination in humans. J Infect Dis 203(7):921-9.
 }
 \seealso{
 \code{lm}
 }
-
+\author{
+Stefan Avey
+}

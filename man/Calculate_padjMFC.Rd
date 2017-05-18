@@ -40,10 +40,9 @@ and any missing values in fcCol and d0Col will also be missing in the output.
 ## First Example
 
 }
-\author{
-Stefan Avey
-}
 \seealso{
 \code{lm}
 }
-
+\author{
+Stefan Avey
+}

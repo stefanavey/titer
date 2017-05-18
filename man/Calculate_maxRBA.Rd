@@ -60,10 +60,9 @@ endpoints$maxRBA_d30
 endpoints <- Calculate_maxRBA(titer_list, method = "exp", discretize = 0.5)
 endpoints$maxRBA_d50
 }
-\author{
-Stefan Avey
-}
 \seealso{
 \code{lm, nls}
 }
-
+\author{
+Stefan Avey
+}

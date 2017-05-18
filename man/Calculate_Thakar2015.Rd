@@ -33,10 +33,9 @@ titer_list <- FormatTiters(Year2_Titers)
 
 Calculate_Thakar2015(titer_list)
 }
-\author{
-Stefan Avey
-}
 \references{
 Thakar J, et al. (2015) Aging-dependent alterations in gene expression and a mitochondrial signature of responsiveness to human influenza vaccination. Aging (Albany NY) 7(1):38-52.
 }
-
+\author{
+Stefan Avey
+}

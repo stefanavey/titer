@@ -32,4 +32,3 @@ titer_list <- FormatTiters(Year1_Titers, log2Transform = TRUE, fcMinZero = TRUE)
 \author{
 Stefan Avey
 }
-

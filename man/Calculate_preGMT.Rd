@@ -30,4 +30,3 @@ Calculate_preGMT(titer_list)
 \author{
 Stefan Avey
 }
-
