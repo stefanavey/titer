@@ -105,10 +105,11 @@ Calculate_maxRBA <- function(dat_list, subjectCol = "SubjectID",
     residuals_list[[i]] <- residuals[order(names(residuals))]
     model_list[[i]] <- model
   }
+  ##:ess-bp-start::browser@nil:##
   if(length(residuals_list) > 1) {
     residual_mat <- Reduce(cbind, residuals_list)
   } else {
-      residual_mat <- matrix(residuals_list[[1]], ncol = 1)
+      residual_mat <- as.matrix(residuals_list[[1]])
     }
   colnames(residual_mat) <- names(dat_list)
   if(normalize) {
