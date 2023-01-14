@@ -28,7 +28,7 @@
 #'   \item{models}{the models calculated on each strain separately (with names the same as on \code{dat_list})}
 #'   \item{residualMatrix}{the matrix of residuals}
 #'   \item{maxRBA}{a named vector containing the continuous maxRBA endpoint}
-#'   \item{maxRBA_d<X>}{a named vector containing the discrete maxRBA endpoint with cutoffs defined by the <X>% quantile (may be more than 1, see \code{discretize})}
+#'   \item{maxRBA_d<X>}{a named vector containing the discrete maxRBA endpoint with cutoffs defined by the <X>\% quantile (may be more than 1, see \code{discretize})}
 #' }
 #' @seealso \code{lm, nls}
 #' @author Stefan Avey

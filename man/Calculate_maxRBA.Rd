@@ -4,11 +4,19 @@
 \alias{Calculate_maxRBA}
 \title{Calculate maxRBA}
 \usage{
-Calculate_maxRBA(dat_list, subjectCol = "SubjectID", method = c("exp",
-  "lm"), yMinZero = FALSE, scoreFun = max, discretize = c(0.2, 0.3),
-  normalize = FALSE, scaleResiduals = FALSE,
+Calculate_maxRBA(
+  dat_list,
+  subjectCol = "SubjectID",
+  method = c("exp", "lm"),
+  yMinZero = FALSE,
+  scoreFun = max,
+  discretize = c(0.2, 0.3),
+  normalize = FALSE,
+  scaleResiduals = FALSE,
   responseLabels = paste0(c("low", "moderate", "high"), "Responder"),
-  na_action = "na.fail", ...)
+  na_action = "na.fail",
+  ...
+)
 }
 \arguments{
 \item{dat_list}{a named list like the one returned by \code{\link{FormatTiters}}.}
@@ -33,6 +41,15 @@ square of the confidence intervals from the linear model.}
 \item{na_action}{how should missing \code{NA} values be treated. Default is "na.fail"}
 
 \item{...}{Additional arguments passed to \code{lm} if method == "lm" or \code{nls} if method == "exp"}
+}
+\value{
+A list with the following elements:
+\describe{
+  \item{models}{the models calculated on each strain separately (with names the same as on \code{dat_list})}
+  \item{residualMatrix}{the matrix of residuals}
+  \item{maxRBA}{a named vector containing the continuous maxRBA endpoint}
+  \item{maxRBA_d<X>}{a named vector containing the discrete maxRBA endpoint with cutoffs defined by the <X>\% quantile (may be more than 1, see \code{discretize})}
+}
 }
 \description{
 \code{Calculate_maxRBA} calculates the maximum residual after baseline-adjustment for each viral strain

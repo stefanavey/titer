@@ -4,14 +4,16 @@
 \alias{Calculate_D0NormPaired}
 \title{Calculate_D0NormPaired}
 \usage{
-Calculate_D0NormPaired(dat, fcStdCols = grep("fc_std_norm", colnames(dat),
-  value = TRUE))
+Calculate_D0NormPaired(
+  dat,
+  fcStdCols = grep("fc_std_norm", colnames(dat), value = TRUE)
+)
 }
 \arguments{
 \item{dat}{data frame containing \code{fcStdCols}}
 
 \item{fcStdCols}{column names containing the titer fold changes for each strain
-standardized across subjects}
+standardized across subjects. Length must be > 1}
 }
 \value{
 a numeric vector containing the values from d0StdCols that

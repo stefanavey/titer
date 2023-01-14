@@ -4,9 +4,15 @@
 \alias{Calculate_padjMFC}
 \title{Calculate_padjMFC}
 \usage{
-Calculate_padjMFC(dat, fcCol = "fc_norm_max_ivt", d0Col = "d0_norm_paired",
-  discretize = c(0.2, 0.3), scaleResiduals = FALSE,
-  responseLabels = paste0(c("low", "moderate", "high"), "Responder"), ...)
+Calculate_padjMFC(
+  dat,
+  fcCol = "fc_norm_max_ivt",
+  d0Col = "d0_norm_paired",
+  discretize = c(0.2, 0.3),
+  scaleResiduals = FALSE,
+  responseLabels = paste0(c("low", "moderate", "high"), "Responder"),
+  ...
+)
 }
 \arguments{
 \item{dat}{the data containing the columns \code{fcCol} and \code{d0Col}}

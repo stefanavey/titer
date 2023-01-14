@@ -1,6 +1,6 @@
 Package: titer
 Title: Tools for analyzing and visualizing antibody titer data
-Version: 0.0.2.0021
+Version: 0.0.2.0030
 Authors@R: person("Stefan", "Avey", , "stefan.avey@yale.edu", role = c("aut", "cre"))
 Description: This package contains methods to calculate endpoints from
 	     antibody titer data and visualize titers.
@@ -13,7 +13,7 @@ Imports:
     tidyr
 License: MIT + file LICENSE
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 7.0.2
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr

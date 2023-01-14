@@ -17,7 +17,7 @@
 #'                  when \code{type == "fc"}
 #' @param idCol     Name of column containing subject IDs
 #' @param cols      column names containing the titer measurements
-#'                  for each strain
+#'                  for each strain. Length must be > 1
 #' @return          A data frame like \code{dat} but with standarized columns added
 #'
 #' @import dplyr
@@ -31,7 +31,8 @@
 #' 
 Calculate_StdNorm <- function(dat, type, fcToOne = FALSE, idCol = "SubjectID",
                              cols = grep(paste0(type, "_[AB]"),
-                                 colnames(dat), value = TRUE)) {
+                                         colnames(dat), value = TRUE)) {
+  stopifnot(length(cols) > 1)
   ## Functions for calculating the std values
   .std <- function(x) { (x - median(x, na.rm = TRUE)) / sd(x, na.rm = TRUE) }
   ## .mad <- function(x) {median(abs(x - median(x, na.rm = TRUE)), na.rm =TRUE)}
@@ -70,7 +71,7 @@ Calculate_StdNorm <- function(dat, type, fcToOne = FALSE, idCol = "SubjectID",
 #'
 #' @param dat       data frame containing \code{fcStdCols}
 #' @param fcStdCols column names containing the titer fold changes for each strain
-#'                  standardized across subjects
+#'                  standardized across subjects. Length must be > 1
 #' @return          a numeric vector containing the values from d0StdCols that
 #'                  correspond to the maximum over the strains of fcStdCols
 #' @author Stefan Avey
@@ -80,7 +81,8 @@ Calculate_StdNorm <- function(dat, type, fcToOne = FALSE, idCol = "SubjectID",
 #' 
 Calculate_D0NormPaired <- function(dat,
                                   fcStdCols = grep("fc_std_norm",
-                                      colnames(dat), value = TRUE)) {
+                                                   colnames(dat), value = TRUE)) {
+  stopifnot(length(fcStdCols) > 1)
   maxStrains <- apply(dat[,fcStdCols], 1, max)
   d0Paired <- rep(NA, nrow(dat))
   for(i in 1:nrow(dat)) {

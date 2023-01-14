@@ -4,10 +4,21 @@
 \alias{BubbleChart}
 \title{Bubble Chart}
 \usage{
-BubbleChart(dat_list, subjectCol = "SubjectID", fit = NULL,
-  yMinZero = FALSE, eqSize = 6/log2(length(dat_list) + 1), colorBy = NULL,
-  xlimits = c(1.5, 10.5), xbreaks = 2:10, ylimits = c(-0.5, 10),
-  ybreaks = seq(0, 10, 2), plot = TRUE, cols = 2, ...)
+BubbleChart(
+  dat_list,
+  subjectCol = "SubjectID",
+  fit = NULL,
+  yMinZero = FALSE,
+  eqSize = 6/log2(length(dat_list) + 1),
+  colorBy = NULL,
+  xlimits = c(1.5, 10.5),
+  xbreaks = 2:10,
+  ylimits = c(-0.5, 10),
+  ybreaks = seq(0, 10, 2),
+  plot = TRUE,
+  cols = 2,
+  ...
+)
 }
 \arguments{
 \item{dat_list}{a named list like the one returned by \code{\link{FormatTiters}}. Values are assumed to be log2-transformed.}

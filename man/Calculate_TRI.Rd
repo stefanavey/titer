@@ -4,9 +4,14 @@
 \alias{Calculate_TRI}
 \title{Calculate TRI}
 \usage{
-Calculate_TRI(dat_list, subjectCol = "SubjectID", discretize = c(0.2, 0.3),
+Calculate_TRI(
+  dat_list,
+  subjectCol = "SubjectID",
+  discretize = c(0.2, 0.3),
   responseLabels = paste0(c("low", "moderate", "high"), "Responder"),
-  na_action = "na.fail", ...)
+  na_action = "na.fail",
+  ...
+)
 }
 \arguments{
 \item{dat_list}{a named list like the one returned by \code{\link{FormatTiters}}.}
@@ -20,6 +25,16 @@ Calculate_TRI(dat_list, subjectCol = "SubjectID", discretize = c(0.2, 0.3),
 \item{na_action}{how should missing \code{NA} values be treated. Default is "na.fail"}
 
 \item{...}{Additional arguments passed to \code{lm}}
+}
+\value{
+A list with the following elements:
+\describe{
+  \item{models}{the models calculated on each strain separately (with names the same as on \code{dat_list})}
+  \item{residualMatrix}{the matrix of residuals}
+  \item{scores}{a data frame containing the four scores (before scaling)}
+  \item{TRI}{a named vector containing the continuous TRI endpoint}
+  \item{TRI_d<X>}{a named vector containing the discrete TRI endpoint with cutoffs defined by the <X>\% quantile (may be more than 1, see \code{discretize})}
+}
 }
 \description{
 \code{Calculate_TRI} calculates the Titer Response Index (TRI)

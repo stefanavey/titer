@@ -19,7 +19,7 @@
 #'   \item{residualMatrix}{the matrix of residuals}
 #'   \item{scores}{a data frame containing the four scores (before scaling)}
 #'   \item{TRI}{a named vector containing the continuous TRI endpoint}
-#'   \item{TRI_d<X>}{a named vector containing the discrete TRI endpoint with cutoffs defined by the <X>% quantile (may be more than 1, see \code{discretize})}
+#'   \item{TRI_d<X>}{a named vector containing the discrete TRI endpoint with cutoffs defined by the <X>\% quantile (may be more than 1, see \code{discretize})}
 #' }
 #' @seealso \code{lm}
 #' @references Bucasas KL, et al. (2011) Early patterns of gene expression correlate with the humoral immune response to influenza vaccination in humans. J Infect Dis 203(7):921-9.

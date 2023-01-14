@@ -4,8 +4,13 @@
 \alias{Calculate_StdNorm}
 \title{Calculate Normalized Titers}
 \usage{
-Calculate_StdNorm(dat, type, fcToOne = FALSE, idCol = "SubjectID",
-  cols = grep(paste0(type, "_[AB]"), colnames(dat), value = TRUE))
+Calculate_StdNorm(
+  dat,
+  type,
+  fcToOne = FALSE,
+  idCol = "SubjectID",
+  cols = grep(paste0(type, "_[AB]"), colnames(dat), value = TRUE)
+)
 }
 \arguments{
 \item{dat}{Data frame containing \code{fcStdCols}}
@@ -20,7 +25,7 @@ when \code{type == "fc"}}
 \item{idCol}{Name of column containing subject IDs}
 
 \item{cols}{column names containing the titer measurements
-for each strain}
+for each strain. Length must be > 1}
 }
 \value{
 A data frame like \code{dat} but with standarized columns added

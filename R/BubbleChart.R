@@ -57,8 +57,8 @@ BubbleChart <- function(dat_list, subjectCol = "SubjectID",
   plotList <- list()
   ## Determine upper limit for size of counts
   upLim <- max(sapply(dat_list, function(plotDat) {
-                        coords <- paste(na.omit(plotDat[,"Pre"]),
-                                        na.omit(plotDat[,"FC"]), sep = ',')
+                        coords <- paste(na.omit(plotDat[["Pre"]]),
+                                        na.omit(plotDat[["FC"]]), sep = ',')
                         max(table(coords))
                       }))
   ## Plots for each individual strain

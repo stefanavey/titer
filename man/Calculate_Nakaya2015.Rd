@@ -4,9 +4,13 @@
 \alias{Calculate_Nakaya2015}
 \title{Calculate Nakaya2015}
 \usage{
-Calculate_Nakaya2015(dat_list, subjectCol = "SubjectID",
+Calculate_Nakaya2015(
+  dat_list,
+  subjectCol = "SubjectID",
   responseLabels = paste0(c("low", "high"), "Responder"),
-  na_action = "na.fail", ...)
+  na_action = "na.fail",
+  ...
+)
 }
 \arguments{
 \item{dat_list}{a named list like the one returned by \code{\link{FormatTiters}}.}

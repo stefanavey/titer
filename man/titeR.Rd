@@ -3,7 +3,6 @@
 \docType{package}
 \name{titeR}
 \alias{titeR}
-\alias{titeR-package}
 \title{titeR - An R package for antibody titer data}
 \description{
 titeR - An R package for antibody titer data

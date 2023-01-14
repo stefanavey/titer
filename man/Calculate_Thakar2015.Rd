@@ -4,8 +4,11 @@
 \alias{Calculate_Thakar2015}
 \title{Calculate Thakar2015}
 \usage{
-Calculate_Thakar2015(dat_list, subjectCol = "SubjectID",
-  responseLabels = c("NR", "X", "R"))
+Calculate_Thakar2015(
+  dat_list,
+  subjectCol = "SubjectID",
+  responseLabels = c("NR", "X", "R")
+)
 }
 \arguments{
 \item{dat_list}{a named list like the one returned by \code{\link{FormatTiters}}.}

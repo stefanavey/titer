@@ -15,7 +15,8 @@
 #' @param log2Transform logical specifying whether titer values should be log2 transformed
 #' @param fcMinZero should negative fold changes be set to 0? Default is \code{TRUE}
 #'
-#' @return a list of data frames with one data frame per viral strain containing the "Pre" and "Post" titer measurements (row names are removed).
+#' @return a list of data frames with one data frame per viral strain containing
+#'     the "Pre" and "Post" titer measurements (row names are removed).
 #' 
 #' @author Stefan Avey
 #' @import dplyr
@@ -33,6 +34,11 @@ FormatTiters <- function(titers, log2Transform = TRUE, fcMinZero = TRUE)
   if(fcMinZero) {
     message("- Setting any negative log fold changes to 0")
   }
+  ## class_titers <- class(titers)
+  ## if(length(class_titers) > 1 || class_titers[1] != "data.frame") {
+  ##     message("- `titers` argument is not a data frame. Strange behavior has been observed with tibbles so coercing to data frame with `as.data.frame(titers)`")
+  ##     titers <- as.data.frame(titers)
+  ## }
   titer_list <- list()
   strains <- sort(unique(titers$Strain))
   for(i in seq_along(strains)) {

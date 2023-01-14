@@ -4,9 +4,14 @@
 \alias{Barplot}
 \title{Titer bar plots.}
 \usage{
-Barplot(dat_list, subjectCol = "SubjectID", cols = 1, groupVar = NULL,
+Barplot(
+  dat_list,
+  subjectCol = "SubjectID",
+  cols = 1,
+  groupVar = NULL,
   colors = c("#A6CEE3", "#1F78B4", "#B2DF8A", "#33A02C", "#FB9A99", "#E31A1C",
-  "#FDBF6F", "#FF7F00"))
+    "#FDBF6F", "#FF7F00")
+)
 }
 \arguments{
 \item{dat_list}{a named list like the one returned by \code{\link{FormatTiters}}.}

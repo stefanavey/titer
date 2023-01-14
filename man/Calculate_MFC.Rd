@@ -4,8 +4,12 @@
 \alias{Calculate_MFC}
 \title{Calculate MFC}
 \usage{
-Calculate_MFC(dat_list, subjectCol = "SubjectID", discretize = c(0.2, 0.3),
-  responseLabels = paste0(c("low", "moderate", "high"), "Responder"))
+Calculate_MFC(
+  dat_list,
+  subjectCol = "SubjectID",
+  discretize = c(0.2, 0.3),
+  responseLabels = paste0(c("low", "moderate", "high"), "Responder")
+)
 }
 \arguments{
 \item{dat_list}{a named list like the one returned by \code{\link{FormatTiters}}.}

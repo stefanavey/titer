@@ -21,7 +21,8 @@ FormatTiters(titers, log2Transform = TRUE, fcMinZero = TRUE)
 \item{fcMinZero}{should negative fold changes be set to 0? Default is \code{TRUE}}
 }
 \value{
-a list of data frames with one data frame per viral strain containing the "Pre" and "Post" titer measurements (row names are removed).
+a list of data frames with one data frame per viral strain containing
+    the "Pre" and "Post" titer measurements (row names are removed).
 }
 \description{
 \code{FormatTiters} formats titers into a list with one tidy data frame per viral strain
